@@ -1,4 +1,4 @@
-#' @param heights: the heights of the pvalue bar, if given, should be the same length as pairs. Otherwise, calculate from the data
+
 get_in_parenthesis <- function(str){
   if(grepl(')',str)){
     str = regmatches(str, gregexpr("(?<=\\().*?(?=\\))", str, perl=T))[[1]]
@@ -18,8 +18,6 @@ fdr2star <- function(fdrs, alpha=0.1){
 }
 
 
-
-##################################################################################################
 format_pval <- function(pval){
   if (is.character(pval)){
     # pval contains fold change
@@ -39,8 +37,41 @@ format_pval <- function(pval){
   pval
 }
 
-add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)), heights=NULL, barheight=NULL, method='wilcox.test',
-                            size=8, pval_text_adj=NULL, annotation=NULL, log=FALSE, pval_star=FALSE){
+
+#' @param ggplot_obj ggplot object
+#' @param pairs a list pairs of comparison. Groups indicated by interger numbers counted from left to right. e.g. list(c(1, 2), c(2, 3))
+#'  will compare first group with second, second group with third
+#' @param test character of statistical testing method. e.g. t.test, wilcox.test. Default wilcox.test
+#' @param heights interger or vector of intergers. The heights of the pvalue/annotation. Defaut maximum value from the data
+#' @param barheight tip bar height of the annotation. Default calculated by range_y / 20
+#' @param testsize pval/annotation text size
+#' @param pval_text_adj distance of pval/annotation from annotation bar. Default barheight/2
+#' @param annotation text to annotate. If specified, statistical test will not be done
+#' @param log whether y axis is log transformed. Default FALSE
+#' @param pval_star whether transform pval numbers to stars.
+#' @examples
+#' \dontrun{
+#' require(ggplot2)
+#' require(ggpval)
+#' data("ToothGrowth")
+#' plt <- ggplot(ToothGrowth, aes(supp, len)) +
+#'   geom_boxplot()+
+#'   facet_wrap(~dose)
+#' add_pval_ggplot(plt, pairs = list(c(1, 2)))
+#' }
+#'
+#' @export
+
+add_pval <- function(ggplot_obj,
+                     pairs=list(c(1,2),c(1,3)),
+                     test='wilcox.test',
+                     heights=NULL,
+                     barheight=NULL,
+                     testsize=5,
+                     pval_text_adj=NULL,
+                     annotation=NULL,
+                     log=FALSE,
+                     pval_star=FALSE){
   require(data.table)
   facet <- NULL # Diffult no facet
   # Check whether facet
@@ -104,7 +135,7 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)), heights=NULL,
       pval <- data_2_test[ , lapply(.SD, function(i) wilcox.test(response ~ as.character(group))$p.value), by=facet, .SDcols=c('response','group')]
       pval <- pval[,group]
     }else{
-      pval <- get(method)(data=data_2_test, response ~ group)$p.value
+      pval <- get(test)(data=data_2_test, response ~ group)$p.value
       fc <- data_2_test[, median(response), by = group][order(group)][, .SD[1] / .SD[2], .SDcols='V1'][,V1]
       fc <- paste0('FC=', round(fc, digits = 2))
       pval <- paste(pval, fc)
@@ -115,9 +146,7 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)), heights=NULL,
       annotation <- pval
     }
     # make data from of label path, the annotation path for each facet is the same
-
     height <- heights[i]
-
     df_path <- data.frame(group=rep(pairs[[i]],each=2),response=c(height,height+barheight[i],height+barheight[i],height))
     ggplot_obj <- ggplot_obj + geom_line(data=df_path,aes(x=group,y=response))
     if(is.null(annotation)){ # assume annotate with p-value
@@ -125,16 +154,20 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)), heights=NULL,
       ggplot_obj <- ggplot_obj + annotate("text",
                                           x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                           y = height+barheight[i]+pval_text_adj[i],
-                                          #label = "paste(italic('P'), pval)", size = size, parse=TRUE) # pval not as number
-                                          label = labels, size = size, parse=TRUE, vjust="bottom")
-      #label = paste('P =', pval), size = size)
+                                          #label = "paste(italic('P'), pval)", testsize = testsize, parse=TRUE) # pval not as number
+                                          label = labels, size = testsize, parse=TRUE, vjust="bottom")
+      #label = paste('P =', pval), size = testsize)
       # TODO: if p<2.226e-16, the function will still display p=<2.226e-16
     }else{
       if(length(annotation) != length(pairs)){
         annotation <- rep(annotation,length=length(pairs))
         warning('Length of annotation not equals to length of pairs, recycled!')
       }
-      ggplot_obj <- ggplot_obj + annotate("text", x = (pairs[[i]][1]+pairs[[i]][2])/2, y = height+barheight[i]+pval_text_adj[i], label = annotation[i], size = size)
+      ggplot_obj <- ggplot_obj + annotate("text", x = (pairs[[i]][1]+pairs[[i]][2])/2,
+                                          y = height+barheight[i]+pval_text_adj[i],
+                                          label = annotation[i],
+                                          size = testsize,
+                                          vjust="bottom")
     }
   }
   ggplot_obj
