@@ -37,7 +37,8 @@ format_pval <- function(pval){
   pval
 }
 
-
+#' Add p-values to ggplot objects.
+#'
 #' @param ggplot_obj ggplot object
 #' @param pairs a list pairs of comparison. Groups indicated by interger numbers counted from left to right. e.g. list(c(1, 2), c(2, 3))
 #'  will compare first group with second, second group with third
