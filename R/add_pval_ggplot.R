@@ -50,6 +50,8 @@ format_pval <- function(pval){
 #' @param annotation text to annotate. If specified, statistical test will not be done
 #' @param log whether y axis is log transformed. Default FALSE
 #' @param pval_star whether transform pval numbers to stars.
+#' @import data.table
+#'
 #' @examples
 #' \dontrun{
 #' require(ggplot2)
@@ -73,7 +75,6 @@ add_pval <- function(ggplot_obj,
                      annotation=NULL,
                      log=FALSE,
                      pval_star=FALSE){
-  library(data.table)
   facet <- NULL # Diffult no facet
   # Check whether facet
   if (class(ggplot_obj$facet)[1]!='null'){

@@ -7,6 +7,9 @@ Maintainer: Jun Cheng <s6juncheng@gmail.com>
 Description: Automatically perform statistical tests between group of comparisons. Alternatively add text annotation to groups.
 License: GPL-3
 Encoding: UTF-8
+Imports:
+  ggplot2,
+  data.table
 LazyData: true
 Suggests: knitr,
     rmarkdown
