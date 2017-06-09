@@ -6,7 +6,6 @@ get_in_parenthesis <- function(str){
   str
 }
 
-
 ## Convert a vector of pvalues to characters, p<0.1 ., p<0.05 **, p<0.01 ***, the others are empty string
 pvars2star <- function(pvars){
   pvars <- ifelse(pvars<0.001,'***',ifelse(pvars<0.01,'**',ifelse(pvars<0.05,'*',ifelse(pvars<0.1,'',''))))
@@ -19,8 +18,7 @@ fdr2star <- function(fdrs, alpha=0.1){
 }
 
 
-###############################################
-# My format pval function, return a bquote expression
+
 ##################################################################################################
 format_pval <- function(pval){
   if (is.character(pval)){
@@ -41,8 +39,8 @@ format_pval <- function(pval){
   pval
 }
 
-add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,barheight=0.05,method='wilcox.test',
-                            size=8,pval_text_adj=0.1,annotation=NULL,log=TRUE, pval_star=FALSE){
+add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)), heights=NULL, barheight=NULL, method='wilcox.test',
+                            size=8, pval_text_adj=NULL, annotation=NULL, log=FALSE, pval_star=FALSE){
   require(data.table)
   facet <- NULL # Diffult no facet
   # Check whether facet
@@ -66,20 +64,27 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
   ggplot_obj$data$response <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[2],'->')$y))]
   # make sure group is factor
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
-  # Barheight and pval text
-  if(length(pval_text_adj) != length(pairs)){
-    pval_text_adj <- rep(pval_text_adj,length=length(pairs))
-    #warning('Length of pval_text_adj not equals to length of pairs, recycled!')
-  }
   # infer heights to put bar
   if(is.null(heights)){
     heights <- max(ggplot_obj$data$response)
+  }
+  # infer barheight of annotation,
+  if(is.null(barheight)){
+    y_range <- layer_scales(ggplot_obj)$y$range$range
+    barheight <- (y_range[2] - y_range[1]) / 20
   }
   if(length(barheight) != length(pairs)){
     barheight <- rep(barheight,length=length(pairs))
     #warning('Length of barheight not equals to length of pairs, recycled!')
   }
-
+  # infer distance pval text above annotation bar
+  if(is.null(pval_text_adj)){
+    pval_text_adj <- barheight * 0.5
+  }
+  if(length(pval_text_adj) != length(pairs)){
+    pval_text_adj <- rep(pval_text_adj,length=length(pairs))
+    #warning('Length of pval_text_adj not equals to length of pairs, recycled!')
+  }
   # Scale barheight and pval_text_adj log
   if (log){
     barheight <- exp(log(heights) + barheight) - heights
@@ -121,7 +126,7 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
                                           x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                           y = height+barheight[i]+pval_text_adj[i],
                                           #label = "paste(italic('P'), pval)", size = size, parse=TRUE) # pval not as number
-                                          label = labels, size = size, parse=TRUE)
+                                          label = labels, size = size, parse=TRUE, vjust="bottom")
       #label = paste('P =', pval), size = size)
       # TODO: if p<2.226e-16, the function will still display p=<2.226e-16
     }else{

@@ -17,4 +17,4 @@ plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   facet_wrap(~G)
 
-add_pval_ggplot(plt, pairs = list(c(1, 2)), heights = 11)
+add_pval_ggplot(plt, pairs = list(c(1, 2)), pval_text_adj = 0)
