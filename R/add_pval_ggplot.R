@@ -47,10 +47,10 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
   facet <- NULL # Diffult no facet
   # Check whether facet
   if (class(ggplot_obj$facet)[1]!='null'){
-    if (length(names(ggplot_obj$facet$cols)) > 1){
-      stop('Not yet implemented for grid facet with two variables, feel free to do it!')
+    if (class(ggplot_obj$facet)[1] == "FacetGrid"){
+      facet <- ggplot_obj$facet$params$cols[[1]]
     }else{
-      #facet <- names(ggplot_obj$facet$cols)
+      #facet <- names(ggplot_obj$facet$params$cols)
       facet <- ggplot_obj$facet$params$facets[[1]]
     }
   }
@@ -68,11 +68,11 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
   # Barheight and pval text
   if(length(pval_text_adj) != length(pairs)){
     pval_text_adj <- rep(pval_text_adj,length=length(pairs))
-    warning('Length of pval_text_adj not equals to length of pairs, recycled!')
+    #warning('Length of pval_text_adj not equals to length of pairs, recycled!')
   }
   if(length(barheight) != length(pairs)){
     barheight <- rep(barheight,length=length(pairs))
-    warning('Length of barheight not equals to length of pairs, recycled!')
+    #warning('Length of barheight not equals to length of pairs, recycled!')
   }
   # Scale barheight and pval_text_adj log
   if (log){
@@ -110,7 +110,7 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
       height <- heights[i]
     }
     df_path <- data.frame(group=rep(pairs[[i]],each=2),response=c(height,height+barheight[i],height+barheight[i],height))
-    ggplot_obj <- ggplot_obj + geom_line(data=df_path,aes(x=group,y=response,fill=NULL))
+    ggplot_obj <- ggplot_obj + geom_line(data=df_path,aes(x=group,y=response))
     if(is.null(annotation)){ # assume annotate with p-value
       labels <- sapply(pval, function(i) deparse(format_pval(i)))
       ggplot_obj <- ggplot_obj + annotate("text",
