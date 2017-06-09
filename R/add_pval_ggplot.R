@@ -56,7 +56,8 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
   }
   if(!is.null(heights)){
     if(length(pairs) != length(heights)){
-      stop('the heights of the pvalue bar should be the same length as pairs. Otherwise, calculate from the data')
+      pairs <- rep_len(heights, length(pairs))
+      #warning('the heights of the pvalue bar should be the same length as pairs. Otherwise, calculate from the data')
     }
   }
   # make sure group and response column are identified
@@ -70,10 +71,15 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
     pval_text_adj <- rep(pval_text_adj,length=length(pairs))
     #warning('Length of pval_text_adj not equals to length of pairs, recycled!')
   }
+  # infer heights to put bar
+  if(is.null(heights)){
+    heights <- max(ggplot_obj$data$response)
+  }
   if(length(barheight) != length(pairs)){
     barheight <- rep(barheight,length=length(pairs))
     #warning('Length of barheight not equals to length of pairs, recycled!')
   }
+
   # Scale barheight and pval_text_adj log
   if (log){
     barheight <- exp(log(heights) + barheight) - heights
@@ -104,11 +110,9 @@ add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,b
       annotation <- pval
     }
     # make data from of label path, the annotation path for each facet is the same
-    if(is.null(heights)){
-      height <- max(data_2_test$response)
-    }else{
-      height <- heights[i]
-    }
+
+    height <- heights[i]
+
     df_path <- data.frame(group=rep(pairs[[i]],each=2),response=c(height,height+barheight[i],height+barheight[i],height))
     ggplot_obj <- ggplot_obj + geom_line(data=df_path,aes(x=group,y=response))
     if(is.null(annotation)){ # assume annotate with p-value
