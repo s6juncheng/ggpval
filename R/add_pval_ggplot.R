@@ -18,6 +18,30 @@ fdr2star <- function(fdrs, alpha=0.1){
   fdrs
 }
 
+
+
+###############################################
+# My format pval function, return a bquote expression
+##################################################################################################
+format_pval <- function(pval){
+  if (is.character(pval)){
+    # pval contains fold change
+    pval <- strsplit(pval, ' ')[[1]]
+    fc <- pval[2]
+    pval <- as.numeric(pval[1])
+  }else{
+    fc <- ""
+  }
+  pval <- format.pval(pval, digits = 2)
+  if (grepl("<", pval)){
+    pval <- gsub("< ?", "", pval)
+    pval <- bquote(italic(P) < .(paste(pval, fc)))
+  }else{
+    pval <- bquote(italic(P) == .(paste(pval, fc)))
+  }
+  pval
+}
+
 add_pval_ggplot <- function(ggplot_obj, pairs=list(c(1,2),c(1,3)),heights=NULL,barheight=0.05,method='wilcox.test',
                             size=8,pval_text_adj=0.1,annotation=NULL,log=TRUE, pval_star=FALSE){
   require(data.table)
