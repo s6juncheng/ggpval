@@ -1,22 +1,31 @@
 library(ggplot2)
-data("ToothGrowth")
+library(data.table)
+A <- rnorm(200, 0, 3)
+B <- rnorm(200, 2, 4)
+G <- rep(c("G1", "G2"), each = 100)
+dt <- data.table(A, B, G)
+dt <- melt(dt, id.vars = "G")
 
-plt <- ggplot(ToothGrowth, aes(supp, len)) +
-  geom_boxplot()
 
-plt_facet <- ggplot(ToothGrowth, aes(supp, len)) +
+plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
-  facet_wrap(~dose)
+  geom_jitter()
+
+plt_facet <- ggplot(dt, aes(variable, value)) +
+  geom_boxplot() +
+  geom_jitter() +
+  facet_wrap(~G)
+
 
 test_that("Simple plot", {
-  add_pval_ggplot(plt, pairs = list(c(1, 2)))
+  add_pval(plt, pairs = list(c(1, 2)))
 })
 
 test_that("With facets", {
-  add_pval_ggplot(plt_facet, pairs = list(c(1, 2)))
+  add_pval(plt_facet, pairs = list(c(1, 2)))
 })
 
 test_that("Add annotation", {
-  add_pval_ggplot(plt, pairs = list(c(1, 2)), annotation = "Awesome")
+  add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 })
 

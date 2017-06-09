@@ -1,6 +1,6 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "ggpval user guide"
+author: "Jun Cheng"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -9,50 +9,43 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+`ggpval` allow you to generate statistic test and add test p-value to plots automatically. P-valules can be presented as formated p-values or with stars (e.g. *, **). Alternatively one can also annotation groups with text.
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
 
-## Vignette Info
+## Example
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+Simulate data with groups.
 
 ```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+library(ggpval)
+library(data.table)
+library(ggplot2)
+A <- rnorm(200, 0, 3)
+B <- rnorm(200, 2, 4)
+G <- rep(c("G1", "G2"), each = 100)
+dt <- data.table(A, B, G)
+dt <- melt(dt, id.vars = "G")
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+## A trivial boxplot example
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+Give group pairs you want to compare in `pairs`.
 
 ```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+plt <- ggplot(dt, aes(variable, value)) +
+  geom_boxplot() +
+  geom_jitter()
+
+add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-Also a quote using `>`:
+## Boxplot with facets
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+```{r, echo=FALSE, results='asis'}
+plt <- ggplot(dt, aes(variable, value)) +
+  geom_boxplot() +
+  geom_jitter() +
+  facet_wrap(~G)
+add_pval(plt, pairs = list(c(1, 2)))
+```

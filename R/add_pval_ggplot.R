@@ -73,7 +73,7 @@ add_pval <- function(ggplot_obj,
                      annotation=NULL,
                      log=FALSE,
                      pval_star=FALSE){
-  require(data.table)
+  library(data.table)
   facet <- NULL # Diffult no facet
   # Check whether facet
   if (class(ggplot_obj$facet)[1]!='null'){
