@@ -1,14 +1,17 @@
 ---
 author: "Jun Cheng"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette:
+    fig_width: 6
+    fig_height: 4
 vignette: >
   %\VignetteIndexEntry{ggpval user guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-`ggpval` allow you to generate statistic test and add test p-value to plots automatically. P-valules can be presented as formated p-values or with stars (e.g. *, **). Alternatively one can also annotation groups with text.
+`ggpval` allow you to generate statistical test and add test p-value to plots automatically. P-valules can be presented as formated p-values or with stars (e.g. *, **). Alternatively one can also annotation groups with text.
 
 
 ## Example
@@ -51,5 +54,5 @@ add_pval(plt_facet, pairs = list(c(1, 2)))
 
 ## Annotate your plot
 ```{r, echo=FALSE, results='asis'}
-add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
+add_pval(plt_facet, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
