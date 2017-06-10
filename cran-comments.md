@@ -4,7 +4,16 @@
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs, WARNINGs or NOTEs. 
+There were no ERRORs or WARNINGs. 
+
+There is one false positive NOTE:
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: ‘Jun Cheng <s6juncheng@gmail.com>’
+
+New submission
+
+Possibly mis-spelled words in DESCRIPTION:
+  ggplot (3:46)
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package.

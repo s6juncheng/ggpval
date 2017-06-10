@@ -52,7 +52,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](inst/image/README-unnamed-chunk-3-1.png)
 
 Boxplot with facets
 -------------------
@@ -65,7 +65,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](inst/image/README-unnamed-chunk-4-1.png)
 
 Annotate your plot
 ------------------
@@ -74,4 +74,4 @@ Annotate your plot
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
 
-![](README-unnamed-chunk-5-1.png)
+![](inst/image/README-unnamed-chunk-5-1.png)
