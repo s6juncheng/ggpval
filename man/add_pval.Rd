@@ -17,7 +17,7 @@ will compare first group with second, second group with third}
 
 \item{test}{character of statistical testing method. e.g. t.test, wilcox.test. Default wilcox.test}
 
-\item{heights}{integer or vector of integers. The heights of the pvalue/annotation. Default maximum value from the data}
+\item{heights}{integer or vector of integers. The heights of the p-value/annotation. Default maximum value from the data}
 
 \item{barheight}{tip bar height of the annotation. Default calculated by range_y / 20}
 
