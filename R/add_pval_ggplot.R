@@ -46,7 +46,7 @@ format_pval <- function(pval){
 #' @param pairs a list pairs of comparison. Groups indicated by integer numbers counted from left to right. e.g. list(c(1, 2), c(2, 3))
 #'  will compare first group with second, second group with third
 #' @param test character of statistical testing method. e.g. t.test, wilcox.test. Default wilcox.test
-#' @param heights integer or vector of integers. The heights of the pvalue/annotation. Default maximum value from the data
+#' @param heights integer or vector of integers. The heights of the p-value/annotation. Default maximum value from the data
 #' @param barheight tip bar height of the annotation. Default calculated by range_y / 20
 #' @param testsize p-value/annotation text size
 #' @param pval_text_adj distance of p-value/annotation from annotation bar. Default barheight/2
