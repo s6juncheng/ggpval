@@ -1,6 +1,6 @@
 
 get_in_parenthesis <- function(str){
-  if(grepl(')',str)){
+  if (grepl(')',str)){
     str = regmatches(str, gregexpr("(?<=\\().*?(?=\\))", str, perl=T))[[1]]
   }
   str
@@ -8,7 +8,10 @@ get_in_parenthesis <- function(str){
 
 ## Convert a vector of pvalues to characters, p<0.1 ., p<0.05 **, p<0.01 ***, the others are empty string
 pvars2star <- function(pvars){
-  pvars <- ifelse(pvars<0.001,'***',ifelse(pvars<0.01,'**',ifelse(pvars<0.05,'*',ifelse(pvars<0.1,'',''))))
+  pvars <- ifelse(pvars<0.001, '***', 
+                  ifelse(pvars<0.01,'**', 
+                         ifelse(pvars<0.05,'*', 
+                                ifelse(pvars<0.1,'',''))))
   return(pvars)
 }
 
@@ -81,15 +84,15 @@ add_pval <- function(ggplot_obj,
                      pval_star=FALSE,
                      fold_change=FALSE){
   facet <- NULL
-  if (class(ggplot_obj$facet)[1]!='null'){
+  if (class(ggplot_obj$facet)[1] != 'null'){
     if (class(ggplot_obj$facet)[1] == "FacetGrid"){
       facet <- ggplot_obj$facet$params$cols[[1]]
     }else{
       facet <- ggplot_obj$facet$params$facets[[1]]
     }
   }
-  if(!is.null(heights)){
-    if(length(pairs) != length(heights)){
+  if (!is.null(heights)){
+    if (length(pairs) != length(heights)){
       pairs <- rep_len(heights, length(pairs))
     }
   }
@@ -99,22 +102,22 @@ add_pval <- function(ggplot_obj,
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
   y_range <- layer_scales(ggplot_obj)$y$range$range
   # infer heights to put bar
-  if(is.null(heights)){
+  if (is.null(heights)){
     heights <- y_range[2]
   }
   # infer barheight of annotation,
-  if(is.null(barheight)){
+  if (is.null(barheight)){
     barheight <- (y_range[2] - y_range[1]) / 20
   }
-  if(length(barheight) != length(pairs)){
-    barheight <- rep(barheight,length=length(pairs))
+  if (length(barheight) != length(pairs)){
+    barheight <- rep(barheight, length=length(pairs))
   }
   # infer distance pval text above annotation bar
-  if(is.null(pval_text_adj)){
+  if (is.null(pval_text_adj)){
     pval_text_adj <- barheight * 0.5
   }
-  if(length(pval_text_adj) != length(pairs)){
-    pval_text_adj <- rep(pval_text_adj,length=length(pairs))
+  if (length(pval_text_adj) != length(pairs)){
+    pval_text_adj <- rep(pval_text_adj, length=length(pairs))
   }
   # Scale barheight and pval_text_adj log
   if (log){
@@ -123,8 +126,8 @@ add_pval <- function(ggplot_obj,
   }
   V1 <- aes <- annotate <-  geom_line <-  group <-  response <- NULL
   # for each pair, build a data.frame with pathess
-  for(i in seq(length(pairs))){
-    if(length(unique(pairs[[1]]))!=2){
+  for (i in seq(length(pairs))){
+    if (length(unique(pairs[[1]])) != 2){
       stop('Each vector in pairs must have two different groups to compare, e.g. c(1,2) to compare first and second box.')
     }
     test_groups <- levels(ggplot_obj$data$group)[pairs[[i]]]
@@ -132,8 +135,10 @@ add_pval <- function(ggplot_obj,
     data_2_test <- ggplot_obj$data[ggplot_obj$data$group %in% test_groups,]
     # statistical test
     if (!is.null(facet)){
-      pval <- data_2_test[ , lapply(.SD, function(i) wilcox.test(response ~ as.character(group))$p.value), by=facet, .SDcols=c('response','group')]
-      pval <- pval[,group]
+      pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group))$p.value), 
+                          by=facet, 
+                          .SDcols=c('response','group')]
+      pval <- pval[, group]
     }else{
       pval <- get(test)(data=data_2_test, response ~ group)$p.value
       if (fold_change){
@@ -150,23 +155,26 @@ add_pval <- function(ggplot_obj,
     # make data from of label path, the annotation path for each facet is the same
     height <- heights[i]
     df_path <- data.frame(group=rep(pairs[[i]], each=2),
-                          response=c(height, height+barheight[i], height+barheight[i],height))
+                          response=c(height, height+barheight[i], height+barheight[i], height))
     ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group, y=response))
-    if(is.null(annotation)){ # assume annotate with p-value
+    if (is.null(annotation)){ # assume annotate with p-value
       labels <- sapply(pval, function(i) deparse(format_pval(i)))
       ggplot_obj <- ggplot_obj + annotate("text",
                                           x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                           y = height+barheight[i]+pval_text_adj[i],
-                                          label = labels, size = testsize, parse=TRUE, vjust="bottom")
+                                          label = labels, 
+                                          size = testsize, 
+                                          parse=TRUE, 
+                                          vjust="bottom")
     }else{
-      if(length(annotation) != length(pairs)){
-        annotation <- rep(annotation,length=length(pairs))
+      if (length(annotation) != length(pairs)){
+        annotation <- rep(annotation, length=length(pairs))
       }
       ggplot_obj <- ggplot_obj + annotate("text", x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                           y = height+barheight[i]+pval_text_adj[i],
                                           label = annotation[i],
                                           size = testsize,
-                                          vjust="bottom")
+                                          vjust = "bottom")
     }
   }
   ggplot_obj
