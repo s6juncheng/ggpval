@@ -6,11 +6,11 @@ get_in_parenthesis <- function(str){
   str
 }
 
-## Convert a vector of pvalues to characters, p<0.1 ., p<0.05 **, p<0.01 ***, the others are empty string
+## Convert a vector of p-values to characters, p<0.1 ., p<0.05 **, p<0.01 ***, the others are empty string
 pvars2star <- function(pvars){
-  pvars <- ifelse(pvars<0.001, '***', 
-                  ifelse(pvars<0.01,'**', 
-                         ifelse(pvars<0.05,'*', 
+  pvars <- ifelse(pvars<0.001, '***',
+                  ifelse(pvars<0.01,'**',
+                         ifelse(pvars<0.05,'*',
                                 ifelse(pvars<0.1,'',''))))
   return(pvars)
 }
@@ -43,13 +43,13 @@ format_pval <- function(pval){
 #' Add p-values to ggplot objects.
 #'
 #' @param ggplot_obj ggplot object
-#' @param pairs a list pairs of comparison. Groups indicated by interger numbers counted from left to right. e.g. list(c(1, 2), c(2, 3))
+#' @param pairs a list pairs of comparison. Groups indicated by integer numbers counted from left to right. e.g. list(c(1, 2), c(2, 3))
 #'  will compare first group with second, second group with third
 #' @param test character of statistical testing method. e.g. t.test, wilcox.test. Default wilcox.test
-#' @param heights interger or vector of intergers. The heights of the pvalue/annotation. Defaut maximum value from the data
+#' @param heights integer or vector of integers. The heights of the pvalue/annotation. Default maximum value from the data
 #' @param barheight tip bar height of the annotation. Default calculated by range_y / 20
-#' @param testsize pval/annotation text size
-#' @param pval_text_adj distance of pval/annotation from annotation bar. Default barheight/2
+#' @param testsize p-value/annotation text size
+#' @param pval_text_adj distance of p-value/annotation from annotation bar. Default barheight/2
 #' @param annotation text to annotate. If specified, statistical test will not be done
 #' @param log whether y axis is log transformed. Default FALSE
 #' @param pval_star whether transform pval numbers to stars
@@ -135,8 +135,8 @@ add_pval <- function(ggplot_obj,
     data_2_test <- ggplot_obj$data[ggplot_obj$data$group %in% test_groups,]
     # statistical test
     if (!is.null(facet)){
-      pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group))$p.value), 
-                          by=facet, 
+      pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group))$p.value),
+                          by=facet,
                           .SDcols=c('response','group')]
       pval <- pval[, group]
     }else{
@@ -162,9 +162,9 @@ add_pval <- function(ggplot_obj,
       ggplot_obj <- ggplot_obj + annotate("text",
                                           x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                           y = height+barheight[i]+pval_text_adj[i],
-                                          label = labels, 
-                                          size = testsize, 
-                                          parse=TRUE, 
+                                          label = labels,
+                                          size = testsize,
+                                          parse=TRUE,
                                           vjust="bottom")
     }else{
       if (length(annotation) != length(pairs)){
