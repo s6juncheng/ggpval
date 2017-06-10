@@ -1,10 +1,9 @@
 ---
-title: "ggpval user guide"
 author: "Jun Cheng"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ggpval}
+  %\VignetteIndexEntry{ggpval user guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
