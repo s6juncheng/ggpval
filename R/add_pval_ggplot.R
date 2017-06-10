@@ -78,27 +78,22 @@ add_pval <- function(ggplot_obj,
                      log=FALSE,
                      pval_star=FALSE,
                      fold_change=FALSE){
-  facet <- NULL # Diffult no facet
-  # Check whether facet
+  facet <- NULL
   if (class(ggplot_obj$facet)[1]!='null'){
     if (class(ggplot_obj$facet)[1] == "FacetGrid"){
       facet <- ggplot_obj$facet$params$cols[[1]]
     }else{
-      #facet <- names(ggplot_obj$facet$params$cols)
       facet <- ggplot_obj$facet$params$facets[[1]]
     }
   }
   if(!is.null(heights)){
     if(length(pairs) != length(heights)){
       pairs <- rep_len(heights, length(pairs))
-      #warning('the heights of the pvalue bar should be the same length as pairs. Otherwise, calculate from the data')
     }
   }
-  # make sure group and response column are identified
   ggplot_obj$data <- data.table(ggplot_obj$data)
   ggplot_obj$data$group <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[1],'->')$x))]
   ggplot_obj$data$response <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[2],'->')$y))]
-  # make sure group is factor
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
   y_range <- layer_scales(ggplot_obj)$y$range$range
   # infer heights to put bar
@@ -111,7 +106,6 @@ add_pval <- function(ggplot_obj,
   }
   if(length(barheight) != length(pairs)){
     barheight <- rep(barheight,length=length(pairs))
-    #warning('Length of barheight not equals to length of pairs, recycled!')
   }
   # infer distance pval text above annotation bar
   if(is.null(pval_text_adj)){
@@ -119,7 +113,6 @@ add_pval <- function(ggplot_obj,
   }
   if(length(pval_text_adj) != length(pairs)){
     pval_text_adj <- rep(pval_text_adj,length=length(pairs))
-    #warning('Length of pval_text_adj not equals to length of pairs, recycled!')
   }
   # Scale barheight and pval_text_adj log
   if (log){
@@ -135,7 +128,6 @@ add_pval <- function(ggplot_obj,
     # subset the data to calculate p-value
     data_2_test <- ggplot_obj$data[ggplot_obj$data$group %in% test_groups,]
     # statistical test
-    # Need facet is present
     if (!is.null(facet)){
       pval <- data_2_test[ , lapply(.SD, function(i) wilcox.test(response ~ as.character(group))$p.value), by=facet, .SDcols=c('response','group')]
       pval <- pval[,group]
@@ -161,14 +153,10 @@ add_pval <- function(ggplot_obj,
       ggplot_obj <- ggplot_obj + annotate("text",
                                           x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                           y = height+barheight[i]+pval_text_adj[i],
-                                          #label = "paste(italic('P'), pval)", testsize = testsize, parse=TRUE) # pval not as number
                                           label = labels, size = testsize, parse=TRUE, vjust="bottom")
-      #label = paste('P =', pval), size = testsize)
-      # TODO: if p<2.226e-16, the function will still display p=<2.226e-16
     }else{
       if(length(annotation) != length(pairs)){
         annotation <- rep(annotation,length=length(pairs))
-        warning('Length of annotation not equals to length of pairs, recycled!')
       }
       ggplot_obj <- ggplot_obj + annotate("text", x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                           y = height+barheight[i]+pval_text_adj[i],
