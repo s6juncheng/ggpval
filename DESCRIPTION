@@ -5,6 +5,7 @@ Version: 0.1.0
 Author: Jun Cheng
 Maintainer: Jun Cheng <s6juncheng@gmail.com>
 Description: Automatically perform statistical tests between group of comparisons. Alternatively add text annotation to groups.
+URL: https://github.com/s6juncheng/ggpval
 License: GPL-3
 Encoding: UTF-8
 Imports:
