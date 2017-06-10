@@ -50,6 +50,8 @@ format_pval <- function(pval){
 #' @param annotation text to annotate. If specified, statistical test will not be done
 #' @param log whether y axis is log transformed. Default FALSE
 #' @param pval_star whether transform pval numbers to stars.
+#' @param fold_change whether also compute and show fold changes
+#'
 #' @import data.table
 #'
 #' @examples
@@ -74,7 +76,8 @@ add_pval <- function(ggplot_obj,
                      pval_text_adj=NULL,
                      annotation=NULL,
                      log=FALSE,
-                     pval_star=FALSE){
+                     pval_star=FALSE,
+                     fold_change=FALSE){
   facet <- NULL # Diffult no facet
   # Check whether facet
   if (class(ggplot_obj$facet)[1]!='null'){
@@ -97,13 +100,13 @@ add_pval <- function(ggplot_obj,
   ggplot_obj$data$response <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[2],'->')$y))]
   # make sure group is factor
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
+  y_range <- layer_scales(ggplot_obj)$y$range$range
   # infer heights to put bar
   if(is.null(heights)){
-    heights <- max(ggplot_obj$data$response)
+    heights <- y_range[2]
   }
   # infer barheight of annotation,
   if(is.null(barheight)){
-    y_range <- layer_scales(ggplot_obj)$y$range$range
     barheight <- (y_range[2] - y_range[1]) / 20
   }
   if(length(barheight) != length(pairs)){
@@ -138,9 +141,11 @@ add_pval <- function(ggplot_obj,
       pval <- pval[,group]
     }else{
       pval <- get(test)(data=data_2_test, response ~ group)$p.value
-      fc <- data_2_test[, median(response), by = group][order(group)][, .SD[1] / .SD[2], .SDcols='V1'][,V1]
-      fc <- paste0('FC=', round(fc, digits = 2))
-      pval <- paste(pval, fc)
+      if (fold_change){
+        fc <- data_2_test[, median(response), by = group][order(group)][, .SD[1] / .SD[2], .SDcols='V1'][,V1]
+        fc <- paste0('FC=', round(fc, digits = 2))
+        pval <- paste(pval, fc)
+      }
     }
     # convert pval to stars if needed
     if (pval_star){
