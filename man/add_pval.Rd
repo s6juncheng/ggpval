@@ -6,7 +6,8 @@
 \usage{
 add_pval(ggplot_obj, pairs = list(c(1, 2), c(1, 3)), test = "wilcox.test",
   heights = NULL, barheight = NULL, testsize = 5, pval_text_adj = NULL,
-  annotation = NULL, log = FALSE, pval_star = FALSE)
+  annotation = NULL, log = FALSE, pval_star = FALSE,
+  fold_change = FALSE)
 }
 \arguments{
 \item{ggplot_obj}{ggplot object}
@@ -28,14 +29,16 @@ will compare first group with second, second group with third}
 
 \item{log}{whether y axis is log transformed. Default FALSE}
 
-\item{pval_star}{whether transform pval numbers to stars.}
+\item{pval_star}{whether transform pval numbers to stars}
+
+\item{fold_change}{whether also compute and show fold changes. Default FALSE.}
 }
 \description{
 Add p-values to ggplot objects.
 }
 \examples{
 \dontrun{
-require(ggplot2)
+library(ggplot2)
 require(ggpval)
 data("ToothGrowth")
 plt <- ggplot(ToothGrowth, aes(supp, len)) +

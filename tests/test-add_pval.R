@@ -1,3 +1,4 @@
+library(ggpval)
 library(ggplot2)
 library(data.table)
 A <- rnorm(200, 0, 3)
@@ -16,16 +17,9 @@ plt_facet <- ggplot(dt, aes(variable, value)) +
   geom_jitter() +
   facet_wrap(~G)
 
+add_pval(plt, pairs = list(c(1, 2)))
 
-test_that("Simple plot", {
-  add_pval(plt, pairs = list(c(1, 2)))
-})
+add_pval(plt_facet, pairs = list(c(1, 2)))
 
-test_that("With facets", {
-  add_pval(plt_facet, pairs = list(c(1, 2)))
-})
-
-test_that("Add annotation", {
-  add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
-})
+add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 

@@ -49,14 +49,16 @@ format_pval <- function(pval){
 #' @param pval_text_adj distance of pval/annotation from annotation bar. Default barheight/2
 #' @param annotation text to annotate. If specified, statistical test will not be done
 #' @param log whether y axis is log transformed. Default FALSE
-#' @param pval_star whether transform pval numbers to stars.
-#' @param fold_change whether also compute and show fold changes
+#' @param pval_star whether transform pval numbers to stars
+#' @param fold_change whether also compute and show fold changes. Default FALSE.
 #'
 #' @import data.table
+#' @import stats
+#' @importFrom ggplot2 layer_scales
 #'
 #' @examples
 #' \dontrun{
-#' require(ggplot2)
+#' library(ggplot2)
 #' require(ggpval)
 #' data("ToothGrowth")
 #' plt <- ggplot(ToothGrowth, aes(supp, len)) +
@@ -119,6 +121,7 @@ add_pval <- function(ggplot_obj,
     barheight <- exp(log(heights) + barheight) - heights
     pval_text_adj <- exp(log(heights) + pval_text_adj) - heights
   }
+  V1 <- aes <- annotate <-  geom_line <-  group <-  response <- NULL
   # for each pair, build a data.frame with pathess
   for(i in seq(length(pairs))){
     if(length(unique(pairs[[1]]))!=2){
@@ -134,7 +137,7 @@ add_pval <- function(ggplot_obj,
     }else{
       pval <- get(test)(data=data_2_test, response ~ group)$p.value
       if (fold_change){
-        fc <- data_2_test[, median(response), by = group][order(group)][, .SD[1] / .SD[2], .SDcols='V1'][,V1]
+        fc <- data_2_test[, median(response), by = group][order(group)][, .SD[1] / .SD[2], .SDcols='V1'][ ,V1]
         fc <- paste0('FC=', round(fc, digits = 2))
         pval <- paste(pval, fc)
       }
@@ -146,8 +149,9 @@ add_pval <- function(ggplot_obj,
     }
     # make data from of label path, the annotation path for each facet is the same
     height <- heights[i]
-    df_path <- data.frame(group=rep(pairs[[i]],each=2),response=c(height,height+barheight[i],height+barheight[i],height))
-    ggplot_obj <- ggplot_obj + geom_line(data=df_path,aes(x=group,y=response))
+    df_path <- data.frame(group=rep(pairs[[i]], each=2),
+                          response=c(height, height+barheight[i], height+barheight[i],height))
+    ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group, y=response))
     if(is.null(annotation)){ # assume annotate with p-value
       labels <- sapply(pval, function(i) deparse(format_pval(i)))
       ggplot_obj <- ggplot_obj + annotate("text",

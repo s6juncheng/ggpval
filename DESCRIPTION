@@ -10,6 +10,10 @@ Encoding: UTF-8
 Imports:
   ggplot2,
   data.table
+Suggests:
+  testthat,
+  knitr,
+  rmarkdown
 LazyData: true
 Suggests: knitr,
     rmarkdown

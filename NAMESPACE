@@ -2,3 +2,5 @@
 
 export(add_pval)
 import(data.table)
+import(stats)
+importFrom(ggplot2,layer_scales)
