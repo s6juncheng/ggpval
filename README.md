@@ -70,3 +70,12 @@ add_pval(plt, pairs = list(c(1, 2)))
 ```
 
 ![](README-unnamed-chunk-4-1.png)
+
+Annotate your plot
+------------------
+
+``` r
+add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
+```
+
+![](README-unnamed-chunk-5-1.png)

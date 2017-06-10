@@ -43,9 +43,14 @@ add_pval(plt, pairs = list(c(1, 2)))
 ## Boxplot with facets
 
 ```{r, echo=FALSE, results='asis'}
-plt <- ggplot(dt, aes(variable, value)) +
+plt_facet <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter() +
   facet_wrap(~G)
-add_pval(plt, pairs = list(c(1, 2)))
+add_pval(plt_facet, pairs = list(c(1, 2)))
+```
+
+## Annotate your plot
+```{r, echo=FALSE, results='asis'}
+add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```

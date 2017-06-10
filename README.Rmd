@@ -72,3 +72,8 @@ plt <- ggplot(dt, aes(variable, value)) +
   facet_wrap(~G)
 add_pval(plt, pairs = list(c(1, 2)))
 ```
+
+## Annotate your plot
+```{r, echo=TRUE, results='asis'}
+add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
+```
