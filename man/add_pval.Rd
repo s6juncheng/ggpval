@@ -12,18 +12,18 @@ add_pval(ggplot_obj, pairs = list(c(1, 2), c(1, 3)), test = "wilcox.test",
 \arguments{
 \item{ggplot_obj}{ggplot object}
 
-\item{pairs}{a list pairs of comparison. Groups indicated by interger numbers counted from left to right. e.g. list(c(1, 2), c(2, 3))
+\item{pairs}{a list pairs of comparison. Groups indicated by integer numbers counted from left to right. e.g. list(c(1, 2), c(2, 3))
 will compare first group with second, second group with third}
 
 \item{test}{character of statistical testing method. e.g. t.test, wilcox.test. Default wilcox.test}
 
-\item{heights}{interger or vector of intergers. The heights of the pvalue/annotation. Defaut maximum value from the data}
+\item{heights}{integer or vector of integers. The heights of the pvalue/annotation. Default maximum value from the data}
 
 \item{barheight}{tip bar height of the annotation. Default calculated by range_y / 20}
 
-\item{testsize}{pval/annotation text size}
+\item{testsize}{p-value/annotation text size}
 
-\item{pval_text_adj}{distance of pval/annotation from annotation bar. Default barheight/2}
+\item{pval_text_adj}{distance of p-value/annotation from annotation bar. Default barheight/2}
 
 \item{annotation}{text to annotate. If specified, statistical test will not be done}
 
