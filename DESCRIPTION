@@ -3,9 +3,9 @@ Type: Package
 Title: Annotate Statistical Tests for 'ggplot2'
 Version: 0.1.0
 Authors@R: person("Jun", "Cheng", email = "s6juncheng@gmail.com", role = c("aut", "cre"))
-Description: Automatically perform desired statistical tests (e.g. wilcox.test, t.test) to compare between groups, and add test p-values to the plot with annotation bar. 
+Description: Automatically perform desired statistical tests (e.g. wilcox.test(), t.test()) to compare between groups, and add test p-values to the plot with annotation bar. 
   Visualizing group differences are frequently performed by boxplots, violin plots etc.. 
-  Statistical test results are often needed to be annotated on the plots. This package provide a convinient function that work on 'ggplot2' objects, 
+  Statistical test results are often needed to be annotated on the plots. This package provide a convenient function that work on 'ggplot2' objects, 
   perform desired statistical test between groups of interest and annotate the test results on the plot. 
 URL: https://github.com/s6juncheng/ggpval
 License: GPL-3
