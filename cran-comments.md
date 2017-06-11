@@ -1,3 +1,6 @@
+## This is a resubmission
+Thanks for the comments for the previous submission. I elaborated in the discription about the capabilities of the package, changed the title quoted software name.
+
 ## Test environments
 * local OS X install, R 3.4.0
 * local ubuntu 16.04, R 3.4.0
