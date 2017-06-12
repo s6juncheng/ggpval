@@ -1,5 +1,5 @@
 ## This is a resubmission
-Thanks for the comments for the previous submission. I elaborated in the discription about the capabilities of the package, changed the title and quoted software name.
+Thanks for the comments for the previous submission. I now moved examples outside \dontrun{}. 
 
 ## Test environments
 * local OS X install, R 3.4.0
