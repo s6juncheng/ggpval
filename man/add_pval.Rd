@@ -37,14 +37,12 @@ will compare first group with second, second group with third}
 Add p-values to ggplot objects.
 }
 \examples{
-\dontrun{
 library(ggplot2)
-require(ggpval)
-data("ToothGrowth")
-plt <- ggplot(ToothGrowth, aes(supp, len)) +
-  geom_boxplot()+
-  facet_wrap(~dose)
-add_pval_ggplot(plt, pairs = list(c(1, 2)))
-}
+library(ggpval)
+data("PlantGrowth")
+plt <- ggplot(PlantGrowth, aes(group, weight)) +
+  geom_boxplot()
+add_pval(plt, pairs = list(c(1, 3)), test='wilcox.test')
+
 
 }
