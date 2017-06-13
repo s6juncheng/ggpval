@@ -18,7 +18,8 @@ knitr::opts_chunk$set(
 
 # ggpval
 
-`ggpval` allow you to generate statistic test and add test p-value to plots automatically. P-valules can be presented as formated p-values or with stars (e.g. *, **). Alternatively one can also annotation groups with text.
+`ggpval` allows you to perform statistic tests and add the corresponding p-values to ggplots automatically. P-values can be presented numerically or as stars (e.g. *, **). Alternatively, one can also make any text annotation between groups.
+
 
 ## Installation
 
