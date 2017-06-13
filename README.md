@@ -11,7 +11,8 @@ You can install ggpval from github with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("s6juncheng/ggpval")
+# devtools::install_github("s6juncheng/ggpval")
+# install.packages("ggpval")
 ```
 
 Example
