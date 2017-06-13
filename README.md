@@ -7,16 +7,11 @@ ggpval
 Installation
 ------------
 
-You can install latest version of ggpval from github with:
+You can install ggpval from github with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("s6juncheng/ggpval")
-```
-
-Stable versions are distributed on CRAN, install with:
-```{r}
-install.packages("ggpval")
 ```
 
 Example
@@ -48,7 +43,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](inst/image/README-unnamed-chunk-3-1.png)
+![](README-unnamed-chunk-3-1.png)
 
 Boxplot with facets
 -------------------
@@ -61,7 +56,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](inst/image/README-unnamed-chunk-4-1.png)
+![](README-unnamed-chunk-4-1.png)
 
 Annotate your plot
 ------------------
@@ -70,4 +65,14 @@ Annotate your plot
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
 
-![](inst/image/README-unnamed-chunk-5-1.png)
+![](README-unnamed-chunk-5-1.png)
+
+Bugs and issues
+---------------
+
+Please report bugs and issues on github issue page: <https://github.com/s6juncheng/ggpval/issues>. Contributions are welcomed.
+
+Acknowledgement
+---------------
+
+Thanks to Vicente Yépez for testing and helping with improvement of the package.

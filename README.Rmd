@@ -72,3 +72,9 @@ add_pval(plt, pairs = list(c(1, 2)))
 ```{r, echo=TRUE, results='asis'}
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
+
+## Bugs and issues
+Please report bugs and issues on github issue page: https://github.com/s6juncheng/ggpval/issues. Contributions are welcomed.
+
+## Acknowledgement
+Thanks to Vicente Yépez for testing and helping with improvement of the package.
