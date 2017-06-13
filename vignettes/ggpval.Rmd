@@ -34,7 +34,7 @@ dt <- melt(dt, id.vars = "G")
 
 Give group pairs you want to compare in `pairs`.
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=TRUE, results='asis'}
 plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter()
@@ -44,7 +44,7 @@ add_pval(plt, pairs = list(c(1, 2)))
 
 ## Boxplot with facets
 
-```{r, echo=FALSE, results='asis'}
+```{r, echo=TRUE, results='asis'}
 plt_facet <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter() +
@@ -53,6 +53,6 @@ add_pval(plt_facet, pairs = list(c(1, 2)))
 ```
 
 ## Annotate your plot
-```{r, echo=FALSE, results='asis'}
+```{r, echo=TRUE, results='asis'}
 add_pval(plt_facet, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
