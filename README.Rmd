@@ -29,13 +29,6 @@ You can install ggpval from github with:
 devtools::install_github("s6juncheng/ggpval")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-## basic example code
-```
 
 ## Example
 

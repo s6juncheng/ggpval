@@ -17,15 +17,6 @@ devtools::install_github("s6juncheng/ggpval")
 Example
 -------
 
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-## basic example code
-```
-
-Example
--------
-
 Simulate data with groups.
 
 ``` r
