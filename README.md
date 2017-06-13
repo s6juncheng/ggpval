@@ -7,12 +7,16 @@ ggpval
 Installation
 ------------
 
-You can install ggpval from github with:
+You can install latest version of ggpval from github with:
 
 ``` r
 # install.packages("devtools")
-# devtools::install_github("s6juncheng/ggpval")
-# install.packages("ggpval")
+devtools::install_github("s6juncheng/ggpval")
+```
+
+Stable versions are distributed on CRAN, install with:
+```{r}
+install.packages("ggpval")
 ```
 
 Example
