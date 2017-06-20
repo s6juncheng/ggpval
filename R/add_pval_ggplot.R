@@ -155,7 +155,7 @@ add_pval <- function(ggplot_obj,
     height <- heights[i]
     df_path <- data.frame(group=rep(pairs[[i]], each=2),
                           response=c(height, height+barheight[i], height+barheight[i], height))
-    ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group, y=response))
+    ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group, y=response), inherit.aes = F)
     if (is.null(annotation)){ # assume annotate with p-value
       labels <- sapply(pval, function(i) deparse(format_pval(i)))
       ggplot_obj <- ggplot_obj + annotate("text",
