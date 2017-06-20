@@ -102,6 +102,7 @@ add_pval <- function(ggplot_obj,
   # infer heights to put bar
   if (is.null(heights)){
     heights <- y_range[2]
+    heights <- rep(heights, length=length(pairs))
   }
   # infer barheight of annotation,
   if (is.null(barheight)){
