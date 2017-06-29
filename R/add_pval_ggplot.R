@@ -129,16 +129,18 @@ add_pval <- function(ggplot_obj,
   if (length(pval_text_adj) != length(pairs)){
     pval_text_adj <- rep(pval_text_adj, length=length(pairs))
   }
-  # check annotation input, if provided
-  if ((length(annotation) != length(pairs)) && length(annotation) != n_facet){
-    annotation <- rep(annotation, length = length(pairs))
-  }
-  if (is.list(annotation)){
-    if (length(annotation[[1]]) != length(pairs)){
-      annotation <- lapply(annotation, function(a) rep(a, length = length(pairs)))
+  if (!is.null(annotation)){
+    # check annotation input, if provided
+    if ((length(annotation) != length(pairs)) && length(annotation) != n_facet){
+      annotation <- rep(annotation, length = length(pairs))
     }
+    if (is.list(annotation)){
+      if (length(annotation[[1]]) != length(pairs)){
+        annotation <- lapply(annotation, function(a) rep(a, length = length(pairs)))
+      }
+    }
+    annotation <- data.frame(annotation) # each row annotate each pair
   }
-  annotation <- data.frame(annotation) # each row annotate each pair
   # Scale barheight and pval_text_adj log
   if (log){
     barheight <- exp(log(heights) + barheight) - heights

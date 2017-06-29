@@ -67,6 +67,14 @@ add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 
 ![](README-unnamed-chunk-5-1.png)
 
+In case you want give different annotations to different facets, provide your annotation in a list
+
+``` r
+add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
+```
+
+![](README-unnamed-chunk-6-1.png)
+
 Bugs and issues
 ---------------
 
