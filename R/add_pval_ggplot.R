@@ -54,6 +54,8 @@ format_pval <- function(pval){
 #' @param log whether y axis is log transformed. Default FALSE
 #' @param pval_star whether transform pval numbers to stars
 #' @param fold_change whether also compute and show fold changes. Default FALSE.
+#' @param parse_text whether parse the annotation text (NULL, TRUE, FALSE). If NULL, p-values will be parsed, 
+#'  text annotations will not. Default NULL. 
 #'
 #' @import data.table
 #' @import stats
@@ -80,7 +82,15 @@ add_pval <- function(ggplot_obj,
                      annotation=NULL,
                      log=FALSE,
                      pval_star=FALSE,
-                     fold_change=FALSE){
+                     fold_change=FALSE,
+                     parse_text=NULL){
+  if (is.null(parse_text)){
+    if (is.null(annotation)){
+      parse_text <- TRUE
+    }else{
+      parse_text <- FALSE
+    }
+  }
   facet <- NULL
   if (class(ggplot_obj$facet)[1] != 'null'){
     if (class(ggplot_obj$facet)[1] == "FacetGrid"){
@@ -99,6 +109,7 @@ add_pval <- function(ggplot_obj,
   ggplot_obj$data$response <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[2],'->')$y))]
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
   y_range <- layer_scales(ggplot_obj)$y$range$range
+  n_facet <- length(unique(ggplot_obj$data[, eval(facet)]))
   # infer heights to put bar
   if (is.null(heights)){
     heights <- y_range[2]
@@ -118,6 +129,16 @@ add_pval <- function(ggplot_obj,
   if (length(pval_text_adj) != length(pairs)){
     pval_text_adj <- rep(pval_text_adj, length=length(pairs))
   }
+  # check annotation input, if provided
+  if ((length(annotation) != length(pairs)) && length(annotation) != n_facet){
+    annotation <- rep(annotation, length = length(pairs))
+  }
+  if (is.list(annotation)){
+    if (length(annotation[[1]]) != length(pairs)){
+      annotation <- lapply(annotation, function(a) rep(a, length = length(pairs)))
+    }
+  }
+  annotation <- data.frame(annotation) # each row annotate each pair
   # Scale barheight and pval_text_adj log
   if (log){
     barheight <- exp(log(heights) + barheight) - heights
@@ -156,25 +177,19 @@ add_pval <- function(ggplot_obj,
     df_path <- data.frame(group=rep(pairs[[i]], each=2),
                           response=c(height, height+barheight[i], height+barheight[i], height))
     ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group, y=response), inherit.aes = F)
+    # start annotation
     if (is.null(annotation)){ # assume annotate with p-value
       labels <- sapply(pval, function(i) deparse(format_pval(i)))
-      ggplot_obj <- ggplot_obj + annotate("text",
-                                          x = (pairs[[i]][1]+pairs[[i]][2])/2,
-                                          y = height+barheight[i]+pval_text_adj[i],
-                                          label = labels,
-                                          size = testsize,
-                                          parse=TRUE,
-                                          vjust="bottom")
     }else{
-      if (length(annotation) != length(pairs)){
-        annotation <- rep(annotation, length=length(pairs))
-      }
-      ggplot_obj <- ggplot_obj + annotate("text", x = (pairs[[i]][1]+pairs[[i]][2])/2,
-                                          y = height+barheight[i]+pval_text_adj[i],
-                                          label = annotation[i],
-                                          size = testsize,
-                                          vjust = "bottom")
+      labels <- unlist(annotation[i,])
     }
+    ggplot_obj <- ggplot_obj + annotate("text",
+                                        x = (pairs[[i]][1]+pairs[[i]][2])/2,
+                                        y = height+barheight[i]+pval_text_adj[i],
+                                        label = labels,
+                                        size = testsize,
+                                        parse=parse_text,
+                                        vjust="bottom")
   }
   ggplot_obj
 }

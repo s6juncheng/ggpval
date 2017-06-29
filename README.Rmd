@@ -74,6 +74,12 @@ add_pval(plt, pairs = list(c(1, 2)))
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
 
+In case you want give different annotations to different facets, provide your annotation in a  list
+```{r, echo=TRUE, results='asis'}
+add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
+```
+
+
 ## Bugs and issues
 Please report bugs and issues on github issue page: https://github.com/s6juncheng/ggpval/issues. Contributions are welcomed.
 

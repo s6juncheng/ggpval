@@ -23,3 +23,4 @@ add_pval(plt_facet, pairs = list(c(1, 2)))
 
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 
+add_pval(plt_facet, pairs = list(c(1, 2)), annotation = list("Awesome", "Awesome2"))
