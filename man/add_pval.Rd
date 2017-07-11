@@ -5,9 +5,9 @@
 \title{Add p-values to ggplot objects.}
 \usage{
 add_pval(ggplot_obj, pairs = list(c(1, 2), c(1, 3)), test = "wilcox.test",
-  heights = NULL, barheight = NULL, testsize = 5, pval_text_adj = NULL,
+  heights = NULL, barheight = NULL, textsize = 5, pval_text_adj = NULL,
   annotation = NULL, log = FALSE, pval_star = FALSE,
-  fold_change = FALSE)
+  fold_change = FALSE, parse_text = NULL)
 }
 \arguments{
 \item{ggplot_obj}{ggplot object}
@@ -21,7 +21,7 @@ will compare first group with second, second group with third}
 
 \item{barheight}{tip bar height of the annotation. Default calculated by range_y / 20}
 
-\item{testsize}{p-value/annotation text size}
+\item{textsize}{p-value/annotation text size}
 
 \item{pval_text_adj}{distance of p-value/annotation from annotation bar. Default barheight/2}
 
@@ -32,6 +32,9 @@ will compare first group with second, second group with third}
 \item{pval_star}{whether transform pval numbers to stars}
 
 \item{fold_change}{whether also compute and show fold changes. Default FALSE.}
+
+\item{parse_text}{whether parse the annotation text (NULL, TRUE, FALSE). If NULL, p-values will be parsed,
+text annotations will not. Default NULL.}
 }
 \description{
 Add p-values to ggplot objects.

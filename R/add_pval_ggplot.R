@@ -48,14 +48,14 @@ format_pval <- function(pval){
 #' @param test character of statistical testing method. e.g. t.test, wilcox.test. Default wilcox.test
 #' @param heights integer or vector of integers. The heights of the p-value/annotation. Default maximum value from the data
 #' @param barheight tip bar height of the annotation. Default calculated by range_y / 20
-#' @param testsize p-value/annotation text size
+#' @param textsize p-value/annotation text size
 #' @param pval_text_adj distance of p-value/annotation from annotation bar. Default barheight/2
 #' @param annotation text to annotate. If specified, statistical test will not be done
 #' @param log whether y axis is log transformed. Default FALSE
 #' @param pval_star whether transform pval numbers to stars
 #' @param fold_change whether also compute and show fold changes. Default FALSE.
-#' @param parse_text whether parse the annotation text (NULL, TRUE, FALSE). If NULL, p-values will be parsed, 
-#'  text annotations will not. Default NULL. 
+#' @param parse_text whether parse the annotation text (NULL, TRUE, FALSE). If NULL, p-values will be parsed,
+#'  text annotations will not. Default NULL.
 #'
 #' @import data.table
 #' @import stats
@@ -77,7 +77,7 @@ add_pval <- function(ggplot_obj,
                      test='wilcox.test',
                      heights=NULL,
                      barheight=NULL,
-                     testsize=5,
+                     textsize=5,
                      pval_text_adj=NULL,
                      annotation=NULL,
                      log=FALSE,
@@ -189,7 +189,7 @@ add_pval <- function(ggplot_obj,
                                         x = (pairs[[i]][1]+pairs[[i]][2])/2,
                                         y = height+barheight[i]+pval_text_adj[i],
                                         label = labels,
-                                        size = testsize,
+                                        size = textsize,
                                         parse=parse_text,
                                         vjust="bottom")
   }
