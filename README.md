@@ -58,6 +58,40 @@ add_pval(plt, pairs = list(c(1, 2)))
 
 ![](README-unnamed-chunk-4-1.png)
 
+Bar plot
+--------
+
+`ggpval` try to infer the column which contains the data to do statistical testing. In case this inference was wrong or not possible (for instance the raw data column was not mapped in ggplot object), you can specify the correct column name with `response=`.
+
+``` r
+dt[, mu := mean(value),
+   by = c("G", "variable")]
+
+dt[, se := sd(value) / .N,
+   by = c("G", "variable")]
+
+plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
+  geom_bar(stat = "identity", position = 'dodge') +
+  geom_errorbar(aes(ymin=mu-se, ymax=mu+se),
+                width = .2) +
+  facet_wrap(~G)
+
+add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
+```
+
+![](README-unnamed-chunk-5-1.png)
+
+Additional arguments for statistical function can also be directly supplied.
+
+``` r
+add_pval(plt_bar, pairs = list(c(1, 2)), 
+         test = 't.test',
+          alternative = "less",
+         response = 'value')
+```
+
+![](README-unnamed-chunk-6-1.png)
+
 Annotate your plot
 ------------------
 
@@ -65,7 +99,7 @@ Annotate your plot
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
 
-![](README-unnamed-chunk-5-1.png)
+![](README-unnamed-chunk-7-1.png)
 
 In case you want give different annotations to different facets, provide your annotation in a list
 
@@ -73,7 +107,7 @@ In case you want give different annotations to different facets, provide your an
 add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 ```
 
-![](README-unnamed-chunk-6-1.png)
+![](README-unnamed-chunk-8-1.png)
 
 Bugs and issues
 ---------------
