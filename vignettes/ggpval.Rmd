@@ -1,17 +1,34 @@
 ---
+title: "ggpval user guide"
 author: "Jun Cheng"
-date: "`r Sys.Date()`"
-output: 
-  rmarkdown::html_vignette:
-    fig_width: 6
-    fig_height: 4
-vignette: >
-  %\VignetteIndexEntry{ggpval user guide}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  md_document:
+    variant: markdown_github
 ---
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# ggpval
+
 `ggpval` allows you to perform statistic tests and add the corresponding p-values to ggplots automatically. P-values can be presented numerically or as stars (e.g. *, **). Alternatively, one can also make any text annotation between groups.
+
+
+## Installation
+
+You can install ggpval from github with:
+
+```{r gh-instalqlation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("s6juncheng/ggpval")
+```
 
 
 ## Example
@@ -45,14 +62,53 @@ add_pval(plt, pairs = list(c(1, 2)))
 ## Boxplot with facets
 
 ```{r, echo=TRUE, results='asis'}
-plt_facet <- ggplot(dt, aes(variable, value)) +
+plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter() +
   facet_wrap(~G)
-add_pval(plt_facet, pairs = list(c(1, 2)))
+add_pval(plt, pairs = list(c(1, 2)))
 ```
+
+## Bar plot
+`ggpval` try to infer the column which contains the data to do statistical testing. In case this inference was wrong or not possible (for instance the raw data column was not mapped in ggplot object), you can specify the correct column name with `response=`.
+```{r, echo=TRUE, results='asis'}
+dt[, mu := mean(value),
+   by = c("G", "variable")]
+
+dt[, se := sd(value) / .N,
+   by = c("G", "variable")]
+
+plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
+  geom_bar(stat = "identity", position = 'dodge') +
+  geom_errorbar(aes(ymin=mu-se, ymax=mu+se),
+                width = .2) +
+  facet_wrap(~G)
+
+add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
+```
+
+Additional arguments for statistical function can also be directly supplied. 
+```{r, echo=TRUE, results='asis'}
+add_pval(plt_bar, pairs = list(c(1, 2)), 
+         test = 't.test',
+          alternative = "less",
+         response = 'value')
+```
+
 
 ## Annotate your plot
 ```{r, echo=TRUE, results='asis'}
-add_pval(plt_facet, pairs = list(c(1, 2)), annotation = "Awesome")
+add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
+
+In case you want give different annotations to different facets, provide your annotation in a  list
+```{r, echo=TRUE, results='asis'}
+add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
+```
+
+
+## Bugs and issues
+Please report bugs and issues on github issue page: https://github.com/s6juncheng/ggpval/issues. Contributions are welcomed.
+
+## Acknowledgement
+Thanks to Vicente Yépez for testing and helping with improvement of the package.
