@@ -7,7 +7,7 @@
 add_pval(ggplot_obj, pairs = list(c(1, 2), c(1, 3)), test = "wilcox.test",
   heights = NULL, barheight = NULL, textsize = 5, pval_text_adj = NULL,
   annotation = NULL, log = FALSE, pval_star = FALSE,
-  fold_change = FALSE, parse_text = NULL)
+  fold_change = FALSE, parse_text = NULL, response = "infer", ...)
 }
 \arguments{
 \item{ggplot_obj}{ggplot object}
@@ -35,6 +35,10 @@ will compare first group with second, second group with third}
 
 \item{parse_text}{whether parse the annotation text (NULL, TRUE, FALSE). If NULL, p-values will be parsed,
 text annotations will not. Default NULL.}
+
+\item{response}{the column that contains the data for statistical testing. Default infer from ggplot object.}
+
+\item{...}{additional arguments for statistical testing function (e.g. alternative = "less").}
 }
 \description{
 Add p-values to ggplot objects.

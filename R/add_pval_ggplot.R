@@ -40,6 +40,32 @@ format_pval <- function(pval){
   pval
 }
 
+# Function to infer response variable
+infer_response <- function(ggplot_obj){
+  get_y <- function(mapping){
+    get_in_parenthesis(strsplit(as.character(mapping)[2],'->')$y)
+  }
+  dt <- data.table(ggplot_obj$data)
+  # Find the layer with raw data
+  mapping <- ggplot_obj$mapping
+  response <- get_y(mapping)
+  # Check for other layers
+  maps <- lapply(ggplot_obj$layers, function(i) i$mapping)
+  maps <- maps[!sapply(maps, is.null)]
+  y <- sapply(maps, get_y)
+  if (length(y) == 1 & (y[1] %in% names(dt))){
+    if (is.numeric(dt[, get(y)]) & (length(table(dt[, get(y)])) > length(table(dt[, get(response)])))){
+      response <- y
+      #warning(paste("The inference of raw data column for statistical testing being", response, "might not correct."))
+    }
+  }else{
+    if (length(y) > 1){
+      #warning(paste("The inference of raw data column for statistical testing being", response, "might not correct."))
+    }
+  }
+  response
+}
+
 #' Add p-values to ggplot objects.
 #'
 #' @param ggplot_obj ggplot object
@@ -56,6 +82,8 @@ format_pval <- function(pval){
 #' @param fold_change whether also compute and show fold changes. Default FALSE.
 #' @param parse_text whether parse the annotation text (NULL, TRUE, FALSE). If NULL, p-values will be parsed,
 #'  text annotations will not. Default NULL.
+#' @param response the column that contains the data for statistical testing. Default infer from ggplot object.
+#' @param ... additional arguments for statistical testing function (e.g. alternative = "less").
 #'
 #' @import data.table
 #' @import stats
@@ -74,7 +102,7 @@ format_pval <- function(pval){
 
 add_pval <- function(ggplot_obj,
                      pairs=list(c(1,2),c(1,3)),
-                     test='wilcox.test',
+                     test="wilcox.test",
                      heights=NULL,
                      barheight=NULL,
                      textsize=5,
@@ -83,7 +111,9 @@ add_pval <- function(ggplot_obj,
                      log=FALSE,
                      pval_star=FALSE,
                      fold_change=FALSE,
-                     parse_text=NULL){
+                     parse_text=NULL,
+                     response="infer",
+                     ...){
   if (is.null(parse_text)){
     if (is.null(annotation)){
       parse_text <- TRUE
@@ -106,18 +136,21 @@ add_pval <- function(ggplot_obj,
   }
   ggplot_obj$data <- data.table(ggplot_obj$data)
   ggplot_obj$data$group <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[1],'->')$x))]
-  ggplot_obj$data$response <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[2],'->')$y))]
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
+  if (response == "infer"){
+    response <- infer_response(ggplot_obj)
+  }
+  ggplot_obj$data$response <- ggplot_obj$data[ ,get(response)]
   y_range <- layer_scales(ggplot_obj)$y$range$range
   n_facet <- length(unique(ggplot_obj$data[, eval(facet)]))
-  # infer heights to put bar
-  if (is.null(heights)){
-    heights <- y_range[2]
-    heights <- rep(heights, length=length(pairs))
-  }
   # infer barheight of annotation,
   if (is.null(barheight)){
     barheight <- (y_range[2] - y_range[1]) / 20
+  }
+  # infer heights to put bar
+  if (is.null(heights)){
+    heights <- y_range[2] + barheight
+    heights <- rep(heights, length=length(pairs))
   }
   if (length(barheight) != length(pairs)){
     barheight <- rep(barheight, length=length(pairs))
@@ -157,12 +190,12 @@ add_pval <- function(ggplot_obj,
     data_2_test <- ggplot_obj$data[ggplot_obj$data$group %in% test_groups,]
     # statistical test
     if (!is.null(facet)){
-      pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group))$p.value),
+      pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group), ...)$p.value),
                           by=facet,
                           .SDcols=c('response','group')]
       pval <- pval[, group]
     }else{
-      pval <- get(test)(data=data_2_test, response ~ group)$p.value
+      pval <- get(test)(data=data_2_test, response ~ group, ...)$p.value
       if (fold_change){
         fc <- data_2_test[, median(response), by = group][order(group)][, .SD[1] / .SD[2], .SDcols='V1'][ ,V1]
         fc <- paste0('FC=', round(fc, digits = 2))

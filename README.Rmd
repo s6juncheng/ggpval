@@ -69,6 +69,24 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
+## Bar plot
+`ggpval` try to infer the column which contains the data to do statistical testing. In case this inference was wrong or not possible (for instance the raw data column was not mapped in ggplot object), you can specify the correct column name with `response=`.
+```{r, echo=TRUE, results='asis'}
+dt[, mu := mean(value),
+   by = c("G", "variable")]
+
+dt[, se := sd(value) / .N,
+   by = c("G", "variable")]
+
+plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
+  geom_bar(stat = "identity", position = 'dodge') +
+  geom_errorbar(aes(ymin=mu-se, ymax=mu+se),
+                width = .2) +
+  facet_wrap(~G)
+
+add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
+```
+
 ## Annotate your plot
 ```{r, echo=TRUE, results='asis'}
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
