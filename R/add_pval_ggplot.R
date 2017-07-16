@@ -190,10 +190,15 @@ add_pval <- function(ggplot_obj,
     data_2_test <- ggplot_obj$data[ggplot_obj$data$group %in% test_groups,]
     # statistical test
     if (!is.null(facet)){
+      if (class(ggplot_obj$data[, eval(facet)]) != 'factor'){
+        facet_level <-levels(as.factor(ggplot_obj$data[, eval(facet)]))
+      }else{
+        facet_level <- levels(ggplot_obj$data[, eval(facet)])
+      }
       pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group), ...)$p.value),
                           by=facet,
                           .SDcols=c('response','group')]
-      pval <- pval[, group]
+      pval <- pval[,facet := factor(facet, levels = facet_level)][order(facet), group]
     }else{
       pval <- get(test)(data=data_2_test, response ~ group, ...)$p.value
       if (fold_change){
