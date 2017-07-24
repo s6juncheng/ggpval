@@ -138,9 +138,11 @@ add_pval <- function(ggplot_obj,
   ggplot_obj$data$group <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[1],'->')$x))]
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
   if (response == "infer"){
-    response <- infer_response(ggplot_obj)
+    response_ <- infer_response(ggplot_obj)
+  }else{
+    response_ <- response
   }
-  ggplot_obj$data$response <- ggplot_obj$data[ ,get(response)]
+  ggplot_obj$data$response <- ggplot_obj$data[ ,get(response_)]
   y_range <- layer_scales(ggplot_obj)$y$range$range
   n_facet <- length(unique(ggplot_obj$data[, eval(facet)]))
   # infer barheight of annotation,
