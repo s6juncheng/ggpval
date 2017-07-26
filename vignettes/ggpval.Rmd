@@ -1,9 +1,12 @@
 ---
 title: "ggpval user guide"
 author: "Jun Cheng"
-output:
-  md_document:
-    variant: markdown_github
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteIndexEntry{Title of your vignette}
+  %\usepackage[UTF-8]{inputenc}
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
