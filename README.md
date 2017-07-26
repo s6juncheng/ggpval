@@ -33,7 +33,7 @@ dt <- melt(dt, id.vars = "G")
 A trivial boxplot example
 -------------------------
 
-Give group pairs you want to compare in `pairs`.
+Give the group pairs you want to compare in `pairs`.
 
 ``` r
 plt <- ggplot(dt, aes(variable, value)) +
@@ -61,7 +61,7 @@ add_pval(plt, pairs = list(c(1, 2)))
 Bar plot
 --------
 
-`ggpval` try to infer the column which contains the data to do statistical testing. In case this inference was wrong or not possible (for instance the raw data column was not mapped in ggplot object), you can specify the correct column name with `response=`.
+`ggpval` tries to infer the column which contains the data to do statistical testing. In case this inference was wrong or not possible (for instance the raw data column was not mapped in ggplot object), you can specify the correct column name with `response=`.
 
 ``` r
 dt[, mu := mean(value),
@@ -81,7 +81,7 @@ add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
 
 ![](README-unnamed-chunk-5-1.png)
 
-Additional arguments for statistical function can also be directly supplied.
+Additional arguments for statistical function can also be directly specified.
 
 ``` r
 add_pval(plt_bar, pairs = list(c(1, 2)), 
@@ -101,7 +101,7 @@ add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 
 ![](README-unnamed-chunk-7-1.png)
 
-In case you want give different annotations to different facets, provide your annotation in a list
+In case you want to give different annotations to each facet, provide your annotation as a list.
 
 ``` r
 add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
@@ -112,7 +112,7 @@ add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 Bugs and issues
 ---------------
 
-Please report bugs and issues on github issue page: <https://github.com/s6juncheng/ggpval/issues>. Contributions are welcomed.
+Please report bugs and issues on github issue page: <https://github.com/s6juncheng/ggpval/issues>. Contributions are welcome.
 
 Acknowledgement
 ---------------
