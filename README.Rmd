@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 # Install `ggpval` from CRAN:
 install.packages("ggpval")
 
-You can install the lastest ggpval from github with:
+# You can install the lastest ggpval from github with:
 # install.packages("devtools")
 devtools::install_github("s6juncheng/ggpval")
 ```
