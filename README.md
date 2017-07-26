@@ -7,9 +7,11 @@ ggpval
 Installation
 ------------
 
-You can install ggpval from github with:
-
 ``` r
+# Install `ggpval` from CRAN:
+install.packages("ggpval")
+
+You can install the lastest ggpval from github with:
 # install.packages("devtools")
 devtools::install_github("s6juncheng/ggpval")
 ```
@@ -101,7 +103,7 @@ add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 
 ![](README-unnamed-chunk-7-1.png)
 
-In case you want to give different annotations to each facet, provide your annotation as a list.
+In case you to want give different annotations to each facets, provide your annotation as a list
 
 ``` r
 add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
