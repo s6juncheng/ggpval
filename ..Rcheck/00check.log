@@ -1,0 +1,9 @@
+* using log directory ‘/data/nasif12/home_if12/chengju/project/ggpval/..Rcheck’
+* using R version 3.5.0 (2018-04-23)
+* using platform: x86_64-pc-linux-gnu (64-bit)
+* using session charset: UTF-8
+* checking for file ‘./DESCRIPTION’ ... ERROR
+Required fields missing or empty:
+  ‘Author’ ‘Maintainer’
+* DONE
+Status: 1 ERROR
