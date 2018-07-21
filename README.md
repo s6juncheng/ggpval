@@ -11,7 +11,7 @@ Installation
 # Install `ggpval` from CRAN:
 install.packages("ggpval")
 
-You can install the lastest ggpval from github with:
+# You can install the lastest ggpval from github with:
 # install.packages("devtools")
 devtools::install_github("s6juncheng/ggpval")
 ```
@@ -45,7 +45,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](README-unnamed-chunk-3-1.png)
+![](inst/image/README-unnamed-chunk-3-1.png)
 
 Boxplot with facets
 -------------------
@@ -58,7 +58,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](README-unnamed-chunk-4-1.png)
+![](inst/image/README-unnamed-chunk-4-1.png)
 
 Bar plot
 --------
@@ -81,7 +81,7 @@ plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
 add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
 ```
 
-![](README-unnamed-chunk-5-1.png)
+![](inst/image/README-unnamed-chunk-5-1.png)
 
 Additional arguments for statistical function can also be directly specified.
 
@@ -92,7 +92,7 @@ add_pval(plt_bar, pairs = list(c(1, 2)),
          response = 'value')
 ```
 
-![](README-unnamed-chunk-6-1.png)
+![](inst/image/README-unnamed-chunk-6-1.png)
 
 Annotate your plot
 ------------------
@@ -101,7 +101,7 @@ Annotate your plot
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
 
-![](README-unnamed-chunk-7-1.png)
+![](inst/image/README-unnamed-chunk-7-1.png)
 
 In case you to want give different annotations to each facets, provide your annotation as a list
 
@@ -109,7 +109,7 @@ In case you to want give different annotations to each facets, provide your anno
 add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 ```
 
-![](README-unnamed-chunk-8-1.png)
+![](inst/image/README-unnamed-chunk-8-1.png)
 
 Bugs and issues
 ---------------
