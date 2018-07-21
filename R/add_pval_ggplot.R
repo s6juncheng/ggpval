@@ -1,5 +1,6 @@
 
 get_in_parenthesis <- function(str){
+  str <- strsplit(as.character(str), "~")[[1]][2]
   if (grepl(')',str)){
     str = regmatches(str, gregexpr("(?<=\\().*?(?=\\))", str, perl=T))[[1]]
   }
@@ -43,7 +44,7 @@ format_pval <- function(pval){
 # Function to infer response variable
 infer_response <- function(ggplot_obj){
   get_y <- function(mapping){
-    get_in_parenthesis(strsplit(as.character(mapping)[2],'->')$y)
+    get_in_parenthesis(as.character(mapping[2]))
   }
   dt <- data.table(ggplot_obj$data)
   # Find the layer with raw data
@@ -122,12 +123,22 @@ add_pval <- function(ggplot_obj,
     }
   }
   facet <- NULL
-  if (class(ggplot_obj$facet)[1] != 'null'){
+  n_facet <- 1
+  if (class(ggplot_obj$facet)[1] != 'FacetNull'){
     if (class(ggplot_obj$facet)[1] == "FacetGrid"){
-      facet <- ggplot_obj$facet$params$cols[[1]]
+      facet <- c(names(ggplot_obj$facet$params$cols), names(ggplot_obj$facet$params$rows))
     }else{
-      facet <- ggplot_obj$facet$params$facets[[1]]
+      facet <- names(ggplot_obj$facet$params$facets)
     }
+    if(length(facet) > 1){
+      ggplot_obj$data[, facet_ := paste0(get(facet[1]), get(facet[2]))]
+      comb <- expand.grid(levels(as.factor(ggplot_obj$data[, get(facet[1])])), levels(as.factor(ggplot_obj$data[, get(facet[2])])))
+      facet_level <- paste0(comb[,1], comb[,2])
+      facet <- "facet_"
+    }else{
+      facet_level <- levels(as.factor(ggplot_obj$data[, get(facet)]))
+    }
+    n_facet <- length(unique(ggplot_obj$data[, get(facet)]))
   }
   if (!is.null(heights)){
     if (length(pairs) != length(heights)){
@@ -135,7 +146,7 @@ add_pval <- function(ggplot_obj,
     }
   }
   ggplot_obj$data <- data.table(ggplot_obj$data)
-  ggplot_obj$data$group <- ggplot_obj$data[ ,get(get_in_parenthesis(strsplit(as.character(ggplot_obj$mapping)[1],'->')$x))]
+  ggplot_obj$data$group <- ggplot_obj$data[ ,get(get_in_parenthesis(as.character(ggplot_obj$mapping[1])))]
   ggplot_obj$data$group <- factor(ggplot_obj$data$group)
   if (response == "infer"){
     response_ <- infer_response(ggplot_obj)
@@ -144,7 +155,6 @@ add_pval <- function(ggplot_obj,
   }
   ggplot_obj$data$response <- ggplot_obj$data[ ,get(response_)]
   y_range <- layer_scales(ggplot_obj)$y$range$range
-  n_facet <- length(unique(ggplot_obj$data[, eval(facet)]))
   # infer barheight of annotation,
   if (is.null(barheight)){
     barheight <- (y_range[2] - y_range[1]) / 20
@@ -192,15 +202,10 @@ add_pval <- function(ggplot_obj,
     data_2_test <- ggplot_obj$data[ggplot_obj$data$group %in% test_groups,]
     # statistical test
     if (!is.null(facet)){
-      if (class(ggplot_obj$data[, eval(facet)]) != 'factor'){
-        facet_level <-levels(as.factor(ggplot_obj$data[, eval(facet)]))
-      }else{
-        facet_level <- levels(ggplot_obj$data[, eval(facet)])
-      }
       pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group), ...)$p.value),
                           by=facet,
                           .SDcols=c('response','group')]
-      pval <- pval[,facet := factor(facet, levels = facet_level)][order(facet), group]
+      pval <- pval[,facet := factor(get(facet), levels = facet_level)][order(facet), group]
     }else{
       pval <- get(test)(data=data_2_test, response ~ group, ...)$p.value
       if (fold_change){

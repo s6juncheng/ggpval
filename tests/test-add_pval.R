@@ -7,23 +7,31 @@ G <- rep(c("G1", "G2"), each = 100)
 dt <- data.table(A, B, G)
 dt <- melt(dt, id.vars = "G")
 dt[, G := factor(G, levels = c("G2", "G1"))]
+R <- sample(c('R1', 'R2'), 400, replace = TRUE)
+dt[, R := factor(R, levels = c("R2", "R1"))]
 
 plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter()
 
-plt_facet <- ggplot(dt, aes(variable, value)) +
+plt_facet_wrap <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter() +
   facet_wrap(~G)
 
+plt_facet_grid <- ggplot(dt, aes(variable, value)) +
+  geom_boxplot() +
+  geom_jitter() +
+  facet_grid(R~G)
+
 add_pval(plt, pairs = list(c(1, 2)))
 
-add_pval(plt_facet, pairs = list(c(1, 2)))
+add_pval(plt_facet_wrap, pairs = list(c(1, 2)))
+add_pval(plt_facet_grid, pairs = list(c(1, 2)))
 
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 
-add_pval(plt_facet, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
+add_pval(plt_facet_wrap, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 
 # Bar plot
 dt[, mu := mean(value),
