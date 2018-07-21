@@ -131,6 +131,7 @@ add_pval <- function(ggplot_obj,
       facet <- names(ggplot_obj$facet$params$facets)
     }
     if(length(facet) > 1){
+      facet_ <- NULL
       ggplot_obj$data[, facet_ := paste0(get(facet[1]), get(facet[2]))]
       comb <- expand.grid(levels(as.factor(ggplot_obj$data[, get(facet[1])])), levels(as.factor(ggplot_obj$data[, get(facet[2])])))
       facet_level <- paste0(comb[,1], comb[,2])
