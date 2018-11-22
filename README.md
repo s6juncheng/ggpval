@@ -1,7 +1,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 ggpval
-======
 
+[![](https://cranlogs.r-pkg.org/badges/ggpval)](https://cran.r-project.org/package=ggpval)
+
+======
+[![](https://cranlogs.r-pkg.org/badges/ggpval)](https://cran.r-project.org/package=ggpval)
 `ggpval` allows you to perform statistic tests and add the corresponding p-values to ggplots automatically. P-values can be presented numerically or as stars (e.g. \*, \*\*). Alternatively, one can also make any text annotation between groups.
 
 Installation
