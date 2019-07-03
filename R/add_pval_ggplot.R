@@ -197,7 +197,8 @@ add_pval <- function(ggplot_obj,
     barheight <- exp(log(heights) + barheight) - heights
     pval_text_adj <- exp(log(heights) + pval_text_adj) - heights
   }
-  V1 <- aes <- annotate <-  geom_line <-  group <-  response <- NULL
+  # to avoid NOTE: "no visible binding for global variable ‘geom_line’"
+  V1 <- aes <- annotate <-  geom_line <- group <-  response <- labs <- NULL
   # for each pair, build a data.frame with pathess
   for (i in seq(length(pairs))){
     if (length(unique(pairs[[1]])) != 2){
@@ -249,11 +250,11 @@ add_pval <- function(ggplot_obj,
       )
       setnames(anno, 'facet', eval(facet))
     }
-    ggplot_obj <- ggplot_obj +
-      geom_text(aes(x, y, label=labs),
-                data=anno,
-                parse=TRUE,
-                inherit.aes = FALSE)
+    labs <- geom_text <- x <- y <- NULL
+    ggplot_obj <- ggplot_obj + geom_text(data=anno,
+                                         aes(x=x, y=y, label=labs),
+                                         parse=TRUE,
+                                         inherit.aes = FALSE)
   }
   ggplot_obj
 }
