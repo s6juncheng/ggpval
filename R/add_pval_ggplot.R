@@ -1,6 +1,6 @@
 
 get_in_parenthesis <- function(str){
-  str <- strsplit(as.character(str), "~")[[1]][2]
+  str <- strsplit(as.character(str), "~")[[1]]#[2]
   if (grepl(')',str)){
     str = regmatches(str, gregexpr("(?<=\\().*?(?=\\))", str, perl=T))[[1]]
   }
