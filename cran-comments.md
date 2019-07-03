@@ -1,3 +1,6 @@
+## This is a fix of recent CRAN check warning:
+https://cran.r-project.org/web/checks/check_results_ggpval.html
+
 ## R CMD check results
 There were no ERRORs or WARNINGs.  
 
