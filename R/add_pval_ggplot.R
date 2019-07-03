@@ -1,6 +1,11 @@
 
 get_in_parenthesis <- function(str){
-  str <- strsplit(as.character(str), "~")[[1]]#[2]
+  str <- as.character(str)
+  if(grepl("~", str)){
+    str <- strsplit(str, "~")[[1]][2]
+  }else{
+    str <- strsplit(str, "~")[[1]]
+  }
   if (grepl(')',str)){
     str = regmatches(str, gregexpr("(?<=\\().*?(?=\\))", str, perl=T))[[1]]
   }
@@ -231,13 +236,24 @@ add_pval <- function(ggplot_obj,
     }else{
       labels <- unlist(annotation[i,])
     }
-    ggplot_obj <- ggplot_obj + annotate("text",
-                                        x = (pairs[[i]][1]+pairs[[i]][2])/2,
-                                        y = height+barheight[i]+pval_text_adj[i],
-                                        label = labels,
-                                        size = textsize,
-                                        parse=parse_text,
-                                        vjust="bottom")
+    # create a annotation data.frame
+    if(is.null(facet)){
+      anno <- data.table(x=(pairs[[i]][1]+pairs[[i]][2])/2,
+                         y=height+barheight[i]+pval_text_adj[i],
+                         labs=labels)
+    }else{
+      anno <- data.table(x=rep((pairs[[i]][1]+pairs[[i]][2])/2, n_facet),
+                         y=rep(height+barheight[i]+pval_text_adj[i], n_facet),
+                         labs=labels,
+                         facet=facet_level
+      )
+      setnames(anno, 'facet', eval(facet))
+    }
+    ggplot_obj <- ggplot_obj +
+      geom_text(aes(x, y, label=labs),
+                data=anno,
+                parse=TRUE,
+                inherit.aes = FALSE)
   }
   ggplot_obj
 }

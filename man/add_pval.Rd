@@ -4,10 +4,11 @@
 \alias{add_pval}
 \title{Add p-values to ggplot objects.}
 \usage{
-add_pval(ggplot_obj, pairs = list(c(1, 2), c(1, 3)), test = "wilcox.test",
-  heights = NULL, barheight = NULL, textsize = 5, pval_text_adj = NULL,
-  annotation = NULL, log = FALSE, pval_star = FALSE,
-  fold_change = FALSE, parse_text = NULL, response = "infer", ...)
+add_pval(ggplot_obj, pairs = list(c(1, 2), c(1, 3)),
+  test = "wilcox.test", heights = NULL, barheight = NULL,
+  textsize = 5, pval_text_adj = NULL, annotation = NULL,
+  log = FALSE, pval_star = FALSE, fold_change = FALSE,
+  parse_text = NULL, response = "infer", ...)
 }
 \arguments{
 \item{ggplot_obj}{ggplot object}
