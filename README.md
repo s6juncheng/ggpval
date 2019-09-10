@@ -1,11 +1,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-[![](https://cranlogs.r-pkg.org/badges/ggpval)](https://cran.r-project.org/package=ggpval)
-
 ggpval
 ======
 
-`ggpval` allows you to perform statistic tests and add the corresponding p-values to ggplots automatically. P-values can be presented numerically or as stars (e.g. \*, \*\*). Alternatively, one can also make any text annotation between groups.
+`ggpval` allows you to perform statistic tests and add the corresponding
+p-values to ggplots automatically. P-values can be presented numerically
+or as stars (e.g. \*, \*\*). Alternatively, one can also make any text
+annotation between groups.
 
 Installation
 ------------
@@ -66,7 +66,10 @@ add_pval(plt, pairs = list(c(1, 2)))
 Bar plot
 --------
 
-`ggpval` tries to infer the column which contains the data to do statistical testing. In case this inference was wrong or not possible (for instance the raw data column was not mapped in ggplot object), you can specify the correct column name with `response=`.
+`ggpval` tries to infer the column which contains the data to do
+statistical testing. In case this inference was wrong or not possible
+(for instance the raw data column was not mapped in ggplot object), you
+can specify the correct column name with `response=`.
 
 ``` r
 dt[, mu := mean(value),
@@ -86,13 +89,16 @@ add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
 
 ![](inst/image/README-unnamed-chunk-5-1.png)
 
-Additional arguments for statistical function can also be directly specified.
+Additional arguments for statistical function can also be directly
+specified. Here we also the conventional "\*" format for significance
+level.
 
 ``` r
 add_pval(plt_bar, pairs = list(c(1, 2)), 
          test = 't.test',
           alternative = "less",
-         response = 'value')
+         response = 'value',
+         pval_star = T)
 ```
 
 ![](inst/image/README-unnamed-chunk-6-1.png)
@@ -106,7 +112,8 @@ add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 
 ![](inst/image/README-unnamed-chunk-7-1.png)
 
-In case you to want give different annotations to each facets, provide your annotation as a list
+In case you to want give different annotations to each facets, provide
+your annotation as a list
 
 ``` r
 add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
@@ -117,9 +124,12 @@ add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 Bugs and issues
 ---------------
 
-Please report bugs and issues on github issue page: <https://github.com/s6juncheng/ggpval/issues>. Contributions are welcome.
+Please report bugs and issues on github issue page:
+<a href="https://github.com/s6juncheng/ggpval/issues" class="uri">https://github.com/s6juncheng/ggpval/issues</a>.
+Contributions are welcome.
 
 Acknowledgement
 ---------------
 
-Thanks to Vicente Yépez for testing and helping with improvement of the package.
+Thanks to Vicente Yépez for testing and helping with improvement of the
+package.
