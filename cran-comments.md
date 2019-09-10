@@ -1,5 +1,5 @@
-## This is a fix of recent CRAN check warning:
-https://cran.r-project.org/web/checks/check_results_ggpval.html
+## This is a bug fix version, related github issue:
+https://github.com/s6juncheng/ggpval/issues/7
 
 ## R CMD check results
 There were no ERRORs or WARNINGs.  

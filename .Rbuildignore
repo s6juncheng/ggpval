@@ -1,7 +1,9 @@
 ^.*\.Rproj$
+^.Rhistory
 ^\.Rproj\.user$
 cran-comments.md
 ^README\.Rmd$
 ^README-.*\.png$
 ^README\.md$
 notes
+^CRAN-RELEASE$

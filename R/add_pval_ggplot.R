@@ -152,8 +152,8 @@ add_pval <- function(ggplot_obj,
     }
   }
   ggplot_obj$data <- data.table(ggplot_obj$data)
-  ggplot_obj$data$group <- ggplot_obj$data[ ,get(get_in_parenthesis(as.character(ggplot_obj$mapping[1])))]
-  ggplot_obj$data$group <- factor(ggplot_obj$data$group)
+  ggplot_obj$data$group__ <- ggplot_obj$data[ ,get(get_in_parenthesis(as.character(ggplot_obj$mapping[1])))]
+  ggplot_obj$data$group__ <- factor(ggplot_obj$data$group__)
   if (response == "infer"){
     response_ <- infer_response(ggplot_obj)
   }else{
@@ -198,44 +198,44 @@ add_pval <- function(ggplot_obj,
     pval_text_adj <- exp(log(heights) + pval_text_adj) - heights
   }
   # to avoid NOTE: "no visible binding for global variable ‘geom_line’"
-  V1 <- aes <- annotate <-  geom_line <- group <-  response <- labs <- NULL
+  V1 <- aes <- annotate <-  geom_line <- group__ <-  response <- labs <- NULL
   # for each pair, build a data.frame with pathess
   for (i in seq(length(pairs))){
     if (length(unique(pairs[[1]])) != 2){
       stop('Each vector in pairs must have two different groups to compare, e.g. c(1,2) to compare first and second box.')
     }
-    test_groups <- levels(ggplot_obj$data$group)[pairs[[i]]]
+    test_groups <- levels(ggplot_obj$data$group__)[pairs[[i]]]
     # subset the data to calculate p-value
-    data_2_test <- ggplot_obj$data[ggplot_obj$data$group %in% test_groups,]
+    data_2_test <- ggplot_obj$data[ggplot_obj$data$group__ %in% test_groups,]
     # statistical test
     if (!is.null(facet)){
-      pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group), ...)$p.value),
+      pval <- data_2_test[, lapply(.SD, function(i) get(test)(response ~ as.character(group__), ...)$p.value),
                           by=facet,
-                          .SDcols=c('response','group')]
-      pval <- pval[,facet := factor(get(facet), levels = facet_level)][order(facet), group]
+                          .SDcols=c('response','group__')]
+      pval <- pval[,facet := factor(get(facet), levels = facet_level)][order(facet), group__]
     }else{
-      pval <- get(test)(data=data_2_test, response ~ group, ...)$p.value
+      pval <- get(test)(data=data_2_test, response ~ group__, ...)$p.value
       if (fold_change){
-        fc <- data_2_test[, median(response), by = group][order(group)][, .SD[1] / .SD[2], .SDcols='V1'][ ,V1]
+        fc <- data_2_test[, median(response), by = group__][order(group__)][, .SD[1] / .SD[2], .SDcols='V1'][ ,V1]
         fc <- paste0('FC=', round(fc, digits = 2))
         pval <- paste(pval, fc)
       }
     }
     # convert pval to stars if needed
-    if (pval_star){
+    if (pval_star & is.null(annotation)){
       pval <- pvars2star(pval)
       annotation <- pval
     }
     # make data from of label path, the annotation path for each facet is the same
     height <- heights[i]
-    df_path <- data.frame(group=rep(pairs[[i]], each=2),
+    df_path <- data.frame(group__=rep(pairs[[i]], each=2),
                           response=c(height, height+barheight[i], height+barheight[i], height))
-    ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group, y=response), inherit.aes = F)
+    ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group__, y=response), inherit.aes = F)
     # start annotation
     if (is.null(annotation)){ # assume annotate with p-value
       labels <- sapply(pval, function(i) deparse(format_pval(i)))
     }else{
-      labels <- unlist(annotation[i,])
+      labels <- unlist(annotation[i])
     }
     # create a annotation data.frame
     if(is.null(facet)){
@@ -253,7 +253,7 @@ add_pval <- function(ggplot_obj,
     labs <- geom_text <- x <- y <- NULL
     ggplot_obj <- ggplot_obj + geom_text(data=anno,
                                          aes(x=x, y=y, label=labs),
-                                         parse=TRUE,
+                                         parse=1-pval_star,
                                          inherit.aes = FALSE)
   }
   ggplot_obj

@@ -25,11 +25,14 @@ plt_facet_grid <- ggplot(dt, aes(variable, value)) +
   facet_grid(R~G)
 
 add_pval(plt, pairs = list(c(1, 2)))
+add_pval(plt, pairs = list(c(1, 2)), pval_star = T)
 
 add_pval(plt_facet_wrap, pairs = list(c(1, 2)))
 add_pval(plt_facet_grid, pairs = list(c(1, 2)))
+add_pval(plt_facet_grid, pairs = list(c(1, 2)), pval_star = T)
 
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
+add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome", pval_star = T)
 
 add_pval(plt_facet_wrap, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 
@@ -47,4 +50,4 @@ plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
   facet_wrap(~G)
 
 add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
-
+add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value', pval_star = T)

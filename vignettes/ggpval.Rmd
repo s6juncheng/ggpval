@@ -93,12 +93,13 @@ plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
 add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
 ```
 
-Additional arguments for statistical function can also be directly specified. 
+Additional arguments for statistical function can also be directly specified. Here we also the conventional "*" format for significance level.
 ```{r, echo=TRUE, results='asis'}
 add_pval(plt_bar, pairs = list(c(1, 2)), 
          test = 't.test',
           alternative = "less",
-         response = 'value')
+         response = 'value',
+         pval_star = T)
 ```
 
 
