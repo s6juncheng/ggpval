@@ -27,7 +27,7 @@ fdr2star <- function(fdrs, alpha=0.1){
 }
 
 
-format_pval <- function(pval){
+format_pval <- function(pval, plotly=FALSE){
   if (is.character(pval)){
     # pval contains fold change
     pval <- strsplit(pval, ' ')[[1]]
@@ -37,11 +37,24 @@ format_pval <- function(pval){
     fc <- ""
   }
   pval <- format.pval(pval, digits = 2)
+  format_pval_(pval, fc, plotly=plotly)
+}
+
+format_pval_ <- function(pval, fc, plotly=FALSE){
   if (grepl("<", pval)){
-    pval <- gsub("< ?", "", pval)
-    pval <- bquote(italic(P) < .(paste(pval, fc)))
+    if (plotly){
+      pval <- paste('<i>P</i>', paste(pval, fc))
+    }
+    else {
+      pval <- gsub("< ?", "", pval)
+      pval <- deparse(bquote(italic(P) < .(paste(pval, fc))))
+    }
   }else{
-    pval <- bquote(italic(P) == .(paste(pval, fc)))
+    if (plotly){
+      pval <- paste('<i>P</i> =', paste(pval, fc))
+    }else{
+      pval <- deparse(bquote(italic(P) == .(paste(pval, fc))))
+    }
   }
   pval
 }
@@ -85,6 +98,7 @@ infer_response <- function(ggplot_obj){
 #' @param annotation text to annotate. If specified, statistical test will not be done
 #' @param log whether y axis is log transformed. Default FALSE
 #' @param pval_star whether transform pval numbers to stars
+#' @param plotly set to TRUE if wrap the plot with `ggploty`
 #' @param fold_change whether also compute and show fold changes. Default FALSE.
 #' @param parse_text whether parse the annotation text (NULL, TRUE, FALSE). If NULL, p-values will be parsed,
 #'  text annotations will not. Default NULL.
@@ -116,6 +130,7 @@ add_pval <- function(ggplot_obj,
                      annotation=NULL,
                      log=FALSE,
                      pval_star=FALSE,
+                     plotly=FALSE,
                      fold_change=FALSE,
                      parse_text=NULL,
                      response="infer",
@@ -233,7 +248,7 @@ add_pval <- function(ggplot_obj,
     ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group__, y=response), inherit.aes = F)
     # start annotation
     if (is.null(annotation)){ # assume annotate with p-value
-      labels <- sapply(pval, function(i) deparse(format_pval(i)))
+      labels <- sapply(pval, function(i) format_pval(i, plotly))
     }else{
       labels <- unlist(annotation[i])
     }
@@ -253,7 +268,7 @@ add_pval <- function(ggplot_obj,
     labs <- geom_text <- x <- y <- NULL
     ggplot_obj <- ggplot_obj + geom_text(data=anno,
                                          aes(x=x, y=y, label=labs),
-                                         parse=1-pval_star,
+                                         parse=!pval_star & !plotly,
                                          inherit.aes = FALSE)
   }
   ggplot_obj
