@@ -144,6 +144,7 @@ add_pval <- function(ggplot_obj,
   }
   facet <- NULL
   n_facet <- 1
+  ggplot_obj$data <- data.table(ggplot_obj$data)
   if (class(ggplot_obj$facet)[1] != 'FacetNull'){
     if (class(ggplot_obj$facet)[1] == "FacetGrid"){
       facet <- c(names(ggplot_obj$facet$params$cols), names(ggplot_obj$facet$params$rows))
@@ -166,7 +167,7 @@ add_pval <- function(ggplot_obj,
       pairs <- rep_len(heights, length(pairs))
     }
   }
-  ggplot_obj$data <- data.table(ggplot_obj$data)
+
   ggplot_obj$data$group__ <- ggplot_obj$data[ ,get(get_in_parenthesis(as.character(ggplot_obj$mapping[1])))]
   ggplot_obj$data$group__ <- factor(ggplot_obj$data$group__)
   if (response == "infer"){
@@ -239,7 +240,7 @@ add_pval <- function(ggplot_obj,
     # convert pval to stars if needed
     if (pval_star & is.null(annotation)){
       pval <- pvars2star(pval)
-      annotation <- pval
+      annotation <- t(t(pval))
     }
     # make data from of label path, the annotation path for each facet is the same
     height <- heights[i]
@@ -250,7 +251,7 @@ add_pval <- function(ggplot_obj,
     if (is.null(annotation)){ # assume annotate with p-value
       labels <- sapply(pval, function(i) format_pval(i, plotly))
     }else{
-      labels <- unlist(annotation[i])
+      labels <- unlist(annotation[i,])
     }
     # create a annotation data.frame
     if(is.null(facet)){
