@@ -5,3 +5,5 @@
 inst/doc
 *~
 cran-comments.md
+vignettes/inst
+vignettes/ggpval.R

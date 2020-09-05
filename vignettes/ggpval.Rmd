@@ -97,7 +97,7 @@ Additional arguments for statistical function can also be directly specified. He
 ```{r, echo=TRUE, results='asis'}
 add_pval(plt_bar, pairs = list(c(1, 2)), 
          test = 't.test',
-          alternative = "less",
+         alternative = "less",
          response = 'value',
          pval_star = T)
 ```
