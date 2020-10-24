@@ -136,7 +136,7 @@ add_pval <- function(ggplot_obj,
                      response="infer",
                      ...){
   
-  pairs fix ---------------------------------------------------------------
+# pairs fix ---------------------------------------------------------------
   if(is.null(pairs)){
     total_groups <- length(unique(ggplot_obj$data[[ggpval:::get_in_parenthesis(as.character(ggplot_obj$mapping[1]))]]))
     
