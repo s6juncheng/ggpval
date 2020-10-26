@@ -121,7 +121,7 @@ infer_response <- function(ggplot_obj){
 #' @export
 
 add_pval <- function(ggplot_obj,
-                     pairs=list(c(1,2),c(1,3)),
+                     pairs=NULL,
                      test="wilcox.test",
                      heights=NULL,
                      barheight=NULL,
@@ -135,6 +135,20 @@ add_pval <- function(ggplot_obj,
                      parse_text=NULL,
                      response="infer",
                      ...){
+  
+# pairs fix ---------------------------------------------------------------
+  if(is.null(pairs)){
+    total_groups <- length(unique(ggplot_obj$data[[ggpval:::get_in_parenthesis(as.character(ggplot_obj$mapping[1]))]]))
+    
+    if(total_groups==2){
+      pairs <- list(c(1,2))
+    } else {
+      pairs <- lapply(2:total_groups, function(x) c(1,x))
+    }
+  }
+# -------------------------------------------------------------------------
+  
+  
   if (is.null(parse_text)){
     if (is.null(annotation)){
       parse_text <- TRUE
