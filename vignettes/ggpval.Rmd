@@ -14,8 +14,7 @@ vignette: >
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.path = "inst/image/README-"
+  comment = "#>"
 )
 ```
 
@@ -41,7 +40,7 @@ devtools::install_github("s6juncheng/ggpval")
 
 Simulate data with groups.
 
-```{r, fig.show='hold'}
+```{r, message=FALSE}
 library(ggpval)
 library(data.table)
 library(ggplot2)
@@ -57,7 +56,7 @@ dt <- melt(dt, id.vars = "G")
 
 Give the group pairs you want to compare in `pairs`.
 
-```{r, echo=TRUE, results='asis'}
+```{r, echo=TRUE}
 plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter()
@@ -67,7 +66,7 @@ add_pval(plt, pairs = list(c(1, 2)))
 
 ## Boxplot with facets
 
-```{r, echo=TRUE, results='asis'}
+```{r, echo=TRUE}
 plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter() +
@@ -77,7 +76,7 @@ add_pval(plt, pairs = list(c(1, 2)))
 
 ## Bar plot
 `ggpval` tries to infer the column which contains the data to do statistical testing. In case this inference was wrong or not possible (for instance the raw data column was not mapped in ggplot object), you can specify the correct column name with `response=`.
-```{r, echo=TRUE, results='asis'}
+```{r, echo=TRUE}
 dt[, mu := mean(value),
    by = c("G", "variable")]
 
