@@ -1,5 +1,4 @@
-<!-- badges: start --> [![CRAN
-checks](https://cranchecks.info/badges/summary/ggpval)](https://cran.r-project.org/web/checks/check_results_ggpval.html)
+<!-- badges: start --> [![](https://cran.r-project.org/web/checks/check_results_ggpval.html)
 [![](http://cranlogs.r-pkg.org/badges/last-month/ggpval?color=green)](https://cran.r-project.org/package=ggpval)
 [![](https://www.r-pkg.org/badges/version/ggpval?color=green)](https://cran.r-project.org/package=ggpval)
 [![Dependencies](https://tinyverse.netlify.com/badge/ggpval)](https://cran.r-project.org/package=ggpval)
