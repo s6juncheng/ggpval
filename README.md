@@ -38,14 +38,14 @@ dt <- melt(dt, id.vars = "G")
 A trivial boxplot example
 -------------------------
 
-Give the group pairs you want to compare in `pairs`.
+Give the group pairs you want to compare in `pairs`. By default we use `wilcox.test`, you can al well use `t.test` and others. The key word arguments for the test function, such as `alternative = c("two.sided", "less", "greater")`, `paired=` can be directly given. By default, we use the save default arguments as the test function.
 
 ``` r
 plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter()
 
-add_pval(plt, pairs = list(c(1, 2)))
+add_pval(plt, pairs = list(c(1, 2)), test='wilcox.test', alternative='two.sided')
 ```
 
 ![](inst/image/README-unnamed-chunk-3-1.png)
