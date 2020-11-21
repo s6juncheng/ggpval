@@ -1,2 +1,3 @@
-# ggpval 0.2.3
-* Fixed bug when pval_star=TRUE. Related to issue https://github.com/s6juncheng/ggpval/issues/7
+# ggpval 0.2.4
+* Fix bug for tex annotation with facet, git issue #9
+* Add support for ggplotly, git issue #8

@@ -1,10 +1,18 @@
+<!-- badges: start --> 
+[![CRAN checks](https://cranchecks.info/badges/summary/ggpval)](https://cran.r-project.org/web/checks/check_results_ggpval.html)
+[![](http://cranlogs.r-pkg.org/badges/last-month/ggpval?color=green)](https://cran.r-project.org/package=ggpval)
+[![](https://www.r-pkg.org/badges/version/ggpval?color=green)](https://cran.r-project.org/package=ggpval)
+[![Dependencies](https://tinyverse.netlify.com/badge/ggpval)](https://cran.r-project.org/package=ggpval)
+<!-- badges: end -->
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
 ggpval
 ======
 
 `ggpval` allows you to perform statistic tests and add the corresponding
 p-values to ggplots automatically. P-values can be presented numerically
-or as stars (e.g. \*, \*\*). Alternatively, one can also make any text
+or as stars (e.g. \*, \*\*). Alternatively, one can also make any text
 annotation between groups.
 
 Installation
@@ -48,7 +56,20 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)), test='wilcox.test', alternative='two.sided')
 ```
 
-![](inst/image/README-unnamed-chunk-3-1.png)
+![](man/figures/unnamed-chunk-3-1.png)
+
+Convert with plotly with `ggplotly`
+-------------------
+
+To convert the plot with `ggpval` annotation to plotly, add `plotly=TRUE`:
+
+```r
+plt <- ggplot(dt, aes(variable, value)) +
+  geom_boxplot() +
+  geom_jitter()
+plt <- add_pval(plt, pairs = list(c(1, 2)), test = "t.test", plotly=TRUE)
+plotly::ggplotly(plt) 
+```
 
 Boxplot with facets
 -------------------
@@ -61,7 +82,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](inst/image/README-unnamed-chunk-4-1.png)
+![](man/figures/unnamed-chunk-4-1.png)
 
 Bar plot
 --------
@@ -87,7 +108,7 @@ plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
 add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
 ```
 
-![](inst/image/README-unnamed-chunk-5-1.png)
+![](man/figures/unnamed-chunk-5-1.png)
 
 Additional arguments for statistical function can also be directly
 specified. Here we also the conventional "\*" format for significance
@@ -101,7 +122,7 @@ add_pval(plt_bar, pairs = list(c(1, 2)),
          pval_star = T)
 ```
 
-![](inst/image/README-unnamed-chunk-6-1.png)
+![](man/figures/unnamed-chunk-6-1.png)
 
 Annotate your plot
 ------------------
@@ -110,7 +131,7 @@ Annotate your plot
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
 
-![](inst/image/README-unnamed-chunk-7-1.png)
+![](man/figures/unnamed-chunk-7-1.png)
 
 In case you to want give different annotations to each facets, provide
 your annotation as a list
@@ -119,7 +140,7 @@ your annotation as a list
 add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 ```
 
-![](inst/image/README-unnamed-chunk-8-1.png)
+![](man/figures/unnamed-chunk-8-1.png)
 
 Bugs and issues
 ---------------

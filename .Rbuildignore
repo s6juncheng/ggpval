@@ -7,3 +7,7 @@ cran-comments.md
 ^README\.md$
 notes
 ^CRAN-RELEASE$
+^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

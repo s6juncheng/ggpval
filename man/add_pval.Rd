@@ -6,7 +6,7 @@
 \usage{
 add_pval(
   ggplot_obj,
-  pairs = list(c(1, 2), c(1, 3)),
+  pairs = NULL,
   test = "wilcox.test",
   heights = NULL,
   barheight = NULL,

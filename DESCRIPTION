@@ -1,7 +1,7 @@
 Package: ggpval
 Type: Package
 Title: Annotate Statistical Tests for 'ggplot2'
-Version: 0.2.3
+Version: 0.2.4
 Authors@R: person("Jun", "Cheng", email = "s6juncheng@gmail.com", role = c("aut", "cre"))
 Description: Automatically performs desired statistical tests (e.g. wilcox.test(), t.test()) to compare between groups, 
     and adds the resulting p-values to the plot with an annotation bar.
@@ -17,6 +17,7 @@ Imports:
   data.table
 Suggests: knitr,
     rmarkdown,
+    markdown,
     testthat
 LazyData: true
 VignetteBuilder: knitr
