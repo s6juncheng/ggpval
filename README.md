@@ -58,6 +58,19 @@ add_pval(plt, pairs = list(c(1, 2)), test='wilcox.test', alternative='two.sided'
 
 ![](man/figures/unnamed-chunk-3-1.png)
 
+Convert with plotly with `ggplotly`
+-------------------
+
+To convert the plot with `ggpval` annotation to plotly, add `plotly=TRUE`:
+
+```r
+plt <- ggplot(dt, aes(variable, value)) +
+  geom_boxplot() +
+  geom_jitter()
+plt <- add_pval(plt, pairs = list(c(1, 2)), test = "t.test", plotly=TRUE)
+plotly::ggplotly(plt) 
+```
+
 Boxplot with facets
 -------------------
 

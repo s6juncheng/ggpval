@@ -8,3 +8,6 @@ cran-comments.md
 notes
 ^CRAN-RELEASE$
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

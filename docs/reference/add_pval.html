@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ggpval</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
       </span>
     </div>
 
@@ -123,23 +123,23 @@
     <p>Add p-values to ggplot objects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_pval</span>(
-  <span class='no'>ggplot_obj</span>,
-  <span class='kw'>pairs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>)),
-  <span class='kw'>test</span> <span class='kw'>=</span> <span class='st'>"wilcox.test"</span>,
-  <span class='kw'>heights</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>barheight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>textsize</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>pval_text_adj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>annotation</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>log</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>pval_star</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>plotly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>fold_change</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parse_text</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>response</span> <span class='kw'>=</span> <span class='st'>"infer"</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>add_pval</span><span class='op'>(</span>
+  <span class='va'>ggplot_obj</span>,
+  pairs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  test <span class='op'>=</span> <span class='st'>"wilcox.test"</span>,
+  heights <span class='op'>=</span> <span class='cn'>NULL</span>,
+  barheight <span class='op'>=</span> <span class='cn'>NULL</span>,
+  textsize <span class='op'>=</span> <span class='fl'>5</span>,
+  pval_text_adj <span class='op'>=</span> <span class='cn'>NULL</span>,
+  annotation <span class='op'>=</span> <span class='cn'>NULL</span>,
+  log <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  pval_star <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  plotly <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  fold_change <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  parse_text <span class='op'>=</span> <span class='cn'>NULL</span>,
+  response <span class='op'>=</span> <span class='st'>"infer"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,12 +210,13 @@ text annotations will not. Default NULL.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggpval</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"PlantGrowth"</span>)
-<span class='no'>plt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>PlantGrowth</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>group</span>, <span class='no'>weight</span>)) +
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span>()
-<span class='fu'>add_pval</span>(<span class='no'>plt</span>, <span class='kw'>pairs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>)), <span class='kw'>test</span><span class='kw'>=</span><span class='st'>'wilcox.test'</span>)</div><div class='img'><img src='add_pval-1.png' alt='' width='700' height='433' /></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/s6juncheng/ggpval'>ggpval</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"PlantGrowth"</span><span class='op'>)</span>
+<span class='va'>plt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>PlantGrowth</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>group</span>, <span class='va'>weight</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>add_pval</span><span class='op'>(</span><span class='va'>plt</span>, pairs <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>3</span><span class='op'>)</span><span class='op'>)</span>, test<span class='op'>=</span><span class='st'>'wilcox.test'</span><span class='op'>)</span>
+</div><div class='img'><img src='add_pval-1.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>
@@ -233,7 +234,7 @@ text annotations will not. Default NULL.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
