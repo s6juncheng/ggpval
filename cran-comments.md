@@ -4,11 +4,7 @@
 
 
 ## R CMD check results
-There were no ERRORs or WARNINGs in other platforms except Windows. Details bellow:
-The Windows error is due to the error of package 'utf8'
-https://www.r-project.org/nosvn/R.check/r-devel-windows-ix86+x86_64/utf8-00check.html
-
-ERROR: dependency 'utf8' is not available for package 'pillar'
+There were no ERRORs or WARNINGs.
 
 
 ## Downstream dependencies

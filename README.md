@@ -68,7 +68,7 @@ plt <- ggplot(dt, aes(variable, value)) +
   geom_boxplot() +
   geom_jitter()
 plt <- add_pval(plt, pairs = list(c(1, 2)), test = "t.test", plotly=TRUE)
-plotly::ggplotly(plt) 
+# plotly::ggplotly(plt) # uncomment this
 ```
 
 Boxplot with facets
