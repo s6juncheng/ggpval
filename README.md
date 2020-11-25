@@ -70,6 +70,7 @@ plt <- ggplot(dt, aes(variable, value)) +
 plt <- add_pval(plt, pairs = list(c(1, 2)), test = "t.test", plotly=TRUE)
 plotly::ggplotly(plt) 
 ```
+![](man/figures/plotly.png)
 
 Boxplot with facets
 -------------------
