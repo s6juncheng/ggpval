@@ -107,7 +107,8 @@
 <span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="fl">200</span>, <span class="fl">2</span>, <span class="fl">4</span><span class="op">)</span>
 <span class="va">G</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"G1"</span>, <span class="st">"G2"</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
 <span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/data.table.html">data.table</a></span><span class="op">(</span><span class="va">A</span>, <span class="va">B</span>, <span class="va">G</span><span class="op">)</span>
-<span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/melt.data.table.html">melt</a></span><span class="op">(</span><span class="va">dt</span>, id.vars <span class="op">=</span> <span class="st">"G"</span><span class="op">)</span></code></pre></div>
+<span class="va">dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://Rdatatable.gitlab.io/data.table/reference/melt.data.table.html">melt</a></span><span class="op">(</span><span class="va">dt</span>, id.vars <span class="op">=</span> <span class="st">"G"</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="a-trivial-boxplot-example" class="section level2">
 <h2 class="hasAnchor">
@@ -119,7 +120,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/add_pval.html">add_pval</a></span><span class="op">(</span><span class="va">plt</span>, pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, test<span class="op">=</span><span class="st">'wilcox.test'</span>, alternative<span class="op">=</span><span class="st">'two.sided'</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-3-1.png"></p>
+<p><img src="reference/figures/unnamed-chunk-3-1.png" alt="" width="450"></p>
 </div>
 <div id="convert-with-plotly-with-ggplotly" class="section level2">
 <h2 class="hasAnchor">
@@ -132,7 +133,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="op">)</span>
 <span class="va">plt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/add_pval.html">add_pval</a></span><span class="op">(</span><span class="va">plt</span>, pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, test <span class="op">=</span> <span class="st">"t.test"</span>, plotly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu">plotly</span><span class="fu">::</span><span class="fu">ggplotly</span><span class="op">(</span><span class="va">plt</span><span class="op">)</span> </code></pre></div>
-<p><img src="reference/figures/plotly.png"></p>
+<p><img src="reference/figures/plotly.png" alt="" width="450"></p>
 </div>
 <div id="boxplot-with-facets" class="section level2">
 <h2 class="hasAnchor">
@@ -143,7 +144,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">G</span><span class="op">)</span>
 <span class="fu"><a href="reference/add_pval.html">add_pval</a></span><span class="op">(</span><span class="va">plt</span>, pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-4-1.png"></p>
+<p><img src="reference/figures/unnamed-chunk-4-1.png" alt="" width="650"></p>
 </div>
 <div id="bar-plot" class="section level2">
 <h2 class="hasAnchor">
@@ -163,7 +164,7 @@
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">G</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/add_pval.html">add_pval</a></span><span class="op">(</span><span class="va">plt_bar</span>, pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, response <span class="op">=</span> <span class="st">'value'</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-5-1.png"></p>
+<p><img src="reference/figures/unnamed-chunk-5-1.png" alt="" width="650"></p>
 <p>Additional arguments for statistical function can also be directly specified. Here we also the conventional “*” format for significance level.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/add_pval.html">add_pval</a></span><span class="op">(</span><span class="va">plt_bar</span>, pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, 
@@ -171,18 +172,18 @@
           alternative <span class="op">=</span> <span class="st">"less"</span>,
          response <span class="op">=</span> <span class="st">'value'</span>,
          pval_star <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-6-1.png"></p>
+<p><img src="reference/figures/unnamed-chunk-6-1.png" alt="" width="650"></p>
 </div>
-<div id="annotate-your-plot" class="section level2">
+<div id="annotate-your-plot-with-text" class="section level2">
 <h2 class="hasAnchor">
-<a href="#annotate-your-plot" class="anchor"></a>Annotate your plot</h2>
+<a href="#annotate-your-plot-with-text" class="anchor"></a>Annotate your plot with text</h2>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/add_pval.html">add_pval</a></span><span class="op">(</span><span class="va">plt</span>, pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, annotation <span class="op">=</span> <span class="st">"Awesome"</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-7-1.png"></p>
+<p><img src="reference/figures/unnamed-chunk-7-1.png" alt="" width="650"></p>
 <p>In case you to want give different annotations to each facets, provide your annotation as a list</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/add_pval.html">add_pval</a></span><span class="op">(</span><span class="va">plt</span>, pairs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span>, annotation <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Awesome1"</span>, <span class="st">"Awesome2"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-8-1.png"></p>
+<p><img src="reference/figures/unnamed-chunk-8-1.png" alt="" width="650"></p>
 </div>
 <div id="bugs-and-issues" class="section level2">
 <h2 class="hasAnchor">
