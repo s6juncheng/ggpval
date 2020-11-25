@@ -41,6 +41,7 @@ B <- rnorm(200, 2, 4)
 G <- rep(c("G1", "G2"), each = 100)
 dt <- data.table(A, B, G)
 dt <- melt(dt, id.vars = "G")
+theme_set(theme_classic())
 ```
 
 A trivial boxplot example
@@ -56,7 +57,8 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)), test='wilcox.test', alternative='two.sided')
 ```
 
-![](man/figures/unnamed-chunk-3-1.png)
+<img src="man/figures/unnamed-chunk-3-1.png" alt="" width="450"/>
+
 
 Convert with plotly with `ggplotly`
 -------------------
@@ -70,7 +72,9 @@ plt <- ggplot(dt, aes(variable, value)) +
 plt <- add_pval(plt, pairs = list(c(1, 2)), test = "t.test", plotly=TRUE)
 plotly::ggplotly(plt) 
 ```
-![](man/figures/plotly.png)
+
+<img src="man/figures/plotly.png" alt="" width="450"/>
+
 
 Boxplot with facets
 -------------------
@@ -83,7 +87,8 @@ plt <- ggplot(dt, aes(variable, value)) +
 add_pval(plt, pairs = list(c(1, 2)))
 ```
 
-![](man/figures/unnamed-chunk-4-1.png)
+<img src="man/figures/unnamed-chunk-4-1.png" alt="" width="650"/>
+
 
 Bar plot
 --------
@@ -109,7 +114,8 @@ plt_bar <- ggplot(dt, aes(x=variable, y=mu, fill = variable)) +
 add_pval(plt_bar, pairs = list(c(1, 2)), response = 'value')
 ```
 
-![](man/figures/unnamed-chunk-5-1.png)
+<img src="man/figures/unnamed-chunk-5-1.png" alt="" width="650"/>
+
 
 Additional arguments for statistical function can also be directly
 specified. Here we also the conventional "\*" format for significance
@@ -123,16 +129,16 @@ add_pval(plt_bar, pairs = list(c(1, 2)),
          pval_star = T)
 ```
 
-![](man/figures/unnamed-chunk-6-1.png)
+<img src="man/figures/unnamed-chunk-6-1.png" alt="" width="650"/>
 
-Annotate your plot
+Annotate your plot with text
 ------------------
 
 ``` r
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
 ```
 
-![](man/figures/unnamed-chunk-7-1.png)
+<img src="man/figures/unnamed-chunk-7-1.png" alt="" width="650"/>
 
 In case you to want give different annotations to each facets, provide
 your annotation as a list
@@ -141,7 +147,7 @@ your annotation as a list
 add_pval(plt, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 ```
 
-![](man/figures/unnamed-chunk-8-1.png)
+<img src="man/figures/unnamed-chunk-8-1.png" alt="" width="650"/>
 
 Bugs and issues
 ---------------
