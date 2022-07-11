@@ -32,7 +32,6 @@ add_pval(plt_facet_grid, pairs = list(c(1, 2)))
 add_pval(plt_facet_grid, pairs = list(c(1, 2)), pval_star = T)
 
 add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome")
-add_pval(plt, pairs = list(c(1, 2)), annotation = "Awesome", pval_star = T)
 
 add_pval(plt_facet_wrap, pairs = list(c(1, 2)), annotation = list("Awesome1", "Awesome2"))
 
