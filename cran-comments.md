@@ -1,5 +1,5 @@
 ## This is a bug fix version, related github issue:
-* Merge pull request #19, alow desplaying fold change and pval at the same time. 
+* Merge pull request #19, allow displaying fold change and pval at the same time. 
 
 ## R CMD check results
 There were no ERRORs or WARNINGs
