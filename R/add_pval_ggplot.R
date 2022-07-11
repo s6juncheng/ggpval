@@ -242,16 +242,22 @@ add_pval <- function(ggplot_obj,
       pval <- pval[,facet := factor(get(facet), levels = facet_level)][order(facet), group__]
     }else{
       pval <- get(test)(data=data_2_test, response ~ group__, ...)$p.value
-      if (fold_change){
-        fc <- data_2_test[, median(response), by = group__][order(group__)][, .SD[1] / .SD[2], .SDcols='V1'][ ,V1]
-        fc <- paste0('FC=', round(fc, digits = 2))
-        pval <- paste(pval, fc)
-      }
     }
     # convert pval to stars if needed
-    if (pval_star & is.null(annotation)){
+    if (pval_star) {
       pval <- pvars2star(pval)
-      annotation <- t(t(pval))
+      if (fold_change) {
+        fc <- data_2_test[, median(response), by = group__][order(group__)][,
+                                                                            .SD[1]/.SD[2], .SDcols = "V1"][, V1]
+        fc <- paste0("FC=", round(fc, digits = 2))
+        pval <- paste(pval, fc)
+      }
+      if(is.null(annotation)) {
+        annotation <- t(t(pval))
+      }
+      else {
+        annotation <- rbind(annotation, t(t(pval)))
+      }
     }
     # make data from of label path, the annotation path for each facet is the same
     height <- heights[i]
@@ -260,6 +266,12 @@ add_pval <- function(ggplot_obj,
     ggplot_obj <- ggplot_obj + geom_line(data=df_path, aes(x=group__, y=response), inherit.aes = F)
     # start annotation
     if (is.null(annotation)){ # assume annotate with p-value
+      if (fold_change) {
+        fc <- data_2_test[, median(response), by = group__][order(group__)][,
+                                                                            .SD[1]/.SD[2], .SDcols = "V1"][, V1]
+        fc <- paste0("FC=", round(fc, digits = 2))
+        pval <- paste(pval, fc)
+      }
       labels <- sapply(pval, function(i) format_pval(i, plotly))
     }else{
       labels <- unlist(annotation[i,])
